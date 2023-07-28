@@ -1,0 +1,44 @@
+{ "openapi": "3.0.0",
+"info": {
+  "title": "Books API",
+  "version": "1.0.0",
+  "description": "API to manage books",
+    "paths" : {
+    "/books/createBook" : {
+        "post": {
+          "tags": ["createBook"],
+          "summary": "add the books in books array",
+          "parameters": [],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 5
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "book5"
+                    },
+                    "author": {
+                      "type": "String",
+                      "example": "author5"
+                    },
+                    "publishedyear": {
+                      "type": "String",
+                      "example": "2020"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+    }
+}
+}
+}
+

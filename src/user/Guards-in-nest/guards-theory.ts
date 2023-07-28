@@ -1,0 +1,5 @@
+// In NestJS, ACL stands for "Access Control List," which is a security mechanism used to control access to various resources within an application based on user roles or permissions. It allows you to define and enforce fine-grained access rules, ensuring that only authorized users can perform certain actions or access specific routes and resources.
+
+// Middleware: NestJS allows you to create custom middleware that can be applied globally or to specific routes. You can use middleware to check the user's role or permissions before allowing them to access certain endpoints. If the user doesn't have the required permissions, you can reject the request or return an appropriate response.
+
+// Guards: NestJS provides guards, which are a type of middleware used specifically for authorization purposes. You can create custom guards that check the user's role or permissions and either grant or deny access to a particular route.
