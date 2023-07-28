@@ -1,11 +1,8 @@
 import { Body, Controller, Get, NotFoundException, Param, Post, Put, Headers, Redirect, Delete, Query, Res } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags, ApiHeader, ApiBody, ApiOkResponse, ApiProperty, ApiNotFoundResponse, getSchemaPath, ApiUnauthorizedResponse, ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiCreatedResponse, ApiBadRequestResponse, ApiConflictResponse } from "@nestjs/swagger";
 import {ApiResponses} from "./books-responses"
-import { BookDto } from "./books-dtos";
-import { Books, GetBookDto, Library } from "./books.service";
-
-
-
+import { BookProperties } from "./books-dtos";
+import { Books, GetBookId, Library } from "./books.service";
 
 @Controller("/book")
 @ApiTags("Book")
@@ -13,14 +10,15 @@ export class Bookscontroller {
   //Get request
   @Get('/:id')
   @ApiOperation({ summary: 'Get all books' })
-  @ApiResponse({ description: 'Book data found', type: GetBookDto })
+
+  // @ApiOkResponse({ description: 'Book data found' })
   @ApiOkResponse(ApiResponses.get.ok)
   @ApiBadRequestResponse(ApiResponses.get.Badrequest)
   @ApiUnauthorizedResponse(ApiResponses.get.unauthorized)
   @ApiForbiddenResponse(ApiResponses.get.forbidden)
   @ApiInternalServerErrorResponse(ApiResponses.get.internalservererror)
   @ApiHeader({ name: 'Authorization', description: 'requires authorization' })
-  getBooks(@Param('id') bookId: GetBookDto) {
+  getBooks(@Param('id') bookId: GetBookId) {
     let bookID: number = parseInt(bookId.id)
     const books = [
       {
@@ -89,7 +87,7 @@ export class Bookscontroller {
           genre: 'Fiction',
         }
       },
-    },type : BookDto
+    },type : BookProperties
   })
   @ApiOkResponse(ApiResponses.put.success)
   @ApiBadRequestResponse(ApiResponses.put.badrequest)

@@ -5,8 +5,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const options = new DocumentBuilder()
-    .setTitle("Userapp")
-    .setDescription("user rest api docs")
+    .setTitle("Ramanjenelu swagger")
+    .setDescription("Practice apis ")
     .setVersion("1.0")
     .addBearerAuth({
       type : "http",

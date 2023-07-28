@@ -17,7 +17,7 @@ import { ElectronicsModule } from './electronics/electronics-module';
 @Module({
   controllers: [Appcontroller1, Appusercontroller,Exceptionfilters],
   providers : [user_service,],
-  imports : [BooksModule,Usermodule,Menumodule,ElectronicsModule]
+  imports : [BooksModule,ElectronicsModule]
 })
 export class AppModule implements NestModule {
 

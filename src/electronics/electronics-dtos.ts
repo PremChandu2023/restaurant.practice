@@ -1,24 +1,28 @@
 // product-variant.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ProductVariantDto {
-  @ApiProperty()
+export class ProductVariant {
+  @ApiProperty({example : "Silver"})
   color: string;
 
-  @ApiProperty()
+  @ApiProperty({example : "256GB"})
   storage: string;
 
-  @ApiProperty()
+  @ApiProperty({example : "100GB"})
   RAM: string;
 }
 
-export class ProductDto {
-  @ApiProperty()
+export class Products {
+  @ApiProperty({example : "Laptop"})
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({example : 200})
   price: number;
 
-  @ApiProperty({ type: [ProductVariantDto] })
-  variants: ProductVariantDto[];
+  @ApiProperty({ example: {
+    "color": "Silver",
+    "storage": "256GB",
+    "RAM": "string"
+  }, type: [ProductVariant] })
+  variants: ProductVariant[];
 }

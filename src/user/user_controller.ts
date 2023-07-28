@@ -115,12 +115,6 @@ export class Appusercontroller {
         return users;
     }
 
-    @Post(":id/interview")
-    createJob(@Param("id", ParseIntPipe) id : number, @Body(Custompipes) date :Date ) {
-
-       
-    }
-   
 }
 
 

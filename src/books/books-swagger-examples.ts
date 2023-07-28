@@ -39,7 +39,7 @@ export const bookExamples = {
           title: "Book 2",
           author: "Author 2",
           publishedYear: 2019,
-          genre: "Mystery",
+          genre: "Mydsstery",
         },
       ],
     },

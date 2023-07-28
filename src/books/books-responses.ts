@@ -1,11 +1,11 @@
-import { BookDto } from "./books-dtos";
+import { BookProperties } from "./books-dtos";
 import { bookExamples } from "./books-swagger-examples";
-import { ErrorResponse } from "./books.service";
+import { ErrorResponse, GetBookId } from "./books.service";
 
 export const ApiResponses = {
   get: {
     ok: {
-      status: 200, description: 'Gives an array of books', schema: {
+      status: 200, description: 'Gives details of the book', schema: {
         properties:
         {
           id: { type: "number", example: 1 },
@@ -89,7 +89,7 @@ export const ApiResponses = {
 
     },
     conflict: {
-      status: 409, description: 'Conflict error', type: BookDto,
+      status: 409, description: 'Conflict error', type: BookProperties,
       schema: {
         properties: {
           Statuscode: { type: "number", example: 409 },

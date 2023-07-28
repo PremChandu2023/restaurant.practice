@@ -1,18 +1,21 @@
-import { Injectable } from "@nestjs/common";
+
 import { ApiProperty } from "@nestjs/swagger";
 
 
-export class GetBookDto {
-    @ApiProperty()
-    id : string
+export class GetBookId {
+    @ApiProperty({example : 200})
+    statusCode : number;
+
+    @ApiProperty({example : 1})
+    id : string;
 }
 
 export class Books {
-    @ApiProperty()
+    @ApiProperty({example : 1})
     bookid : number
-    @ApiProperty()
+    @ApiProperty({example : "book1"})
     bookName : string
-    @ApiProperty()
+    @ApiProperty({example : "author1"})
     bookAuthor : string
 
     @ApiProperty()
@@ -22,40 +25,35 @@ export class Books {
 
 export class Library {
 
-    @ApiProperty()
+    @ApiProperty({example : 1})
   id: number;
 
-  @ApiProperty()
+  @ApiProperty({example : "land of death"})
   title: string;
 
-  @ApiProperty()
-  authors : AuthorDTO[]
+  @ApiProperty({example : "tangsan"})
+  authors : Authors[]
 
 }
 
-export class AuthorDTO {
+export class Authors {
 
-    @ApiProperty()
+    @ApiProperty({example: "chandu"})
     name: string;
   
-    @ApiProperty({ type: [String] })
+    @ApiProperty({ type: [String] ,example:{} })
     publishedWorks: string[];
   
-    @ApiProperty()
+    @ApiProperty({example:"mystery"})
     genre?: string;
 }
 
 export class ErrorResponse {
 
-    @ApiProperty()
+    @ApiProperty({example : 200})
     statusCode: number;
 
-    @ApiProperty()
+    @ApiProperty({example : "Given Request has been executed succesfully"})
     message : string;
     
 }
-
-
-
-
-

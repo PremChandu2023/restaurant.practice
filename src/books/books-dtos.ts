@@ -1,7 +1,7 @@
 // bookResponses.ts
 import { ApiProperty } from "@nestjs/swagger";
 
-export class BookDto {
+export class BookProperties {
   @ApiProperty({ type: Number, example: 1 })
   id: number;
 
@@ -19,5 +19,7 @@ export class BookDto {
     
   
 }
+
+
 
 
