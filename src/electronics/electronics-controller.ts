@@ -67,7 +67,7 @@ export class ElectronicsController {
     {
       let product ={
         catalogName: "Electronics",
-        description: "A catalog of electronic products",
+        description: "A catalog of electronndbcic products",
         products: [
           {
             name: "Laptop",
