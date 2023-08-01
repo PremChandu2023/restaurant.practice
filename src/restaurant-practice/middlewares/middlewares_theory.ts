@@ -10,4 +10,10 @@
 // In Nest.js, middleware is implemented using decorators and the Nest middleware interfaces. You can create custom middleware by implementing the NestMiddleware interface and defining the use() method. Middleware can be applied at the global level, controller level, or individual route level using decorators.
 
 
+// why middleware
+// execute any code.
+// make changes to the request and the response objects.
+// end the request-response cycle.
+// call the next middleware function in the stack.
+// if the current middleware function does not end the request-response cycle, it must call it must call next() to pass control to the next middleware function. Otherwise, the request will be left hanging.
 

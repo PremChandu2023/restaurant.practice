@@ -1,5 +1,5 @@
 
-export interface MenuDtos {
+export interface Menu {
     id: number;
   name: string;
   price: number;
@@ -7,3 +7,5 @@ export interface MenuDtos {
   description?: string; 
 
 }
+
+

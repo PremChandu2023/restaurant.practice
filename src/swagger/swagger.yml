@@ -1,0 +1,12 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  version: 1.0.0
+  description: This is a sample API documentation.
+paths:
+  /Orders/name:
+    get:
+      summary: Get a list of users
+      responses:
+        '200':
+          description: Successful response

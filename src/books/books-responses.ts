@@ -22,7 +22,7 @@ export const ApiResponses = {
       }
     },
     Badrequest: {
-      status: 400, description: 'Bad request', content: {
+      description: 'Bad request', content: {
         "application/json": {
           examples: {
             InvalidDataType: bookExamples.invalidDataType
@@ -189,7 +189,8 @@ export const ApiResponses = {
           }
         }
       }
-    }
+    },
+    
   },
   getauthor: {
     success: {
@@ -211,7 +212,6 @@ export const ApiResponses = {
             MissingRequiredFields: {
               description: "If the client sends a request to create a new book but fails to provide some required fields (e.g., title, authors, etc.), the server should respond with a 400 status code.",
               value: {
-                "statusCode": 400,
                 "message": "Bad Request: Missing required field 'authors' in the request body."
               }
             }
@@ -227,7 +227,6 @@ export const ApiResponses = {
             Unauthorizedrequest: {
               description: "Client sends a request to access a book resource that requires authentication, but the client's credentials are invalid or missing, resulting in a 401 Unauthorized response.",
               value: {
-                "statusCode": 401,
                 "message": "Unauthorized: Invalid or missing authentication token"
               }
             }

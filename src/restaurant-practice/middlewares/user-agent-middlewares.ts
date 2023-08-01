@@ -1,11 +1,11 @@
-import { BadGatewayException, BadRequestException, ForbiddenException, HttpStatus, Injectable, NestMiddleware } from "@nestjs/common";
+import { BadGatewayException, BadRequestException, ForbiddenException, HttpStatus, Injectable, NestMiddleware, UnauthorizedException } from "@nestjs/common";
 import { ApiBadGatewayResponse } from "@nestjs/swagger";
 import { NextFunction,Request,Response } from "express";
 
 
-export function userAgent(req  : Request, res: Response, next :NextFunction )
+export  async function userAgent(req  : Request, res: Response, next :NextFunction )
 {
-    const ua = req.headers["user-agent"];
+    const ua = await req.headers["user-agent"];
 
     console.log("this is middle ware for menu");
 
@@ -24,11 +24,34 @@ export class Useragent implements NestMiddleware {
 const ua = req.headers["user-agent"];
         if(!(ua === 'PostmanRuntime/7.32.3'))
         {
-            return res.json({message : "this is protecetd request"})
+            res.json({message : "this is protected request"})
             next();
             
         }
         throw new ForbiddenException("not allowed");
     }
+}
+
+function verifyToken(token : string)
+{
+        return true;
+}
+
+export class AuthorisationMiddlware implements NestMiddleware {
+    use(req: Request, res: Response, next: NextFunction){
+        
+       const token =  req.headers.authorization?.split(' ')[1];
+
+        if(verifyToken(token))
+        {
+            console.log(token+"****************************");
+            
+            next();
+            return;
+        }
+         throw new UnauthorizedException();
+
+    }
+
 }
 

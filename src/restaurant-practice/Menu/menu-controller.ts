@@ -10,9 +10,7 @@ export class Menucontroller {
 getMenu(@Req() req : Request)
 {
     console.log(req["ua"]);
-
-    return{ success : true, message : "this is the list of menu"}
-    
+    return{ success : true, message : "this is the list of menu"}  
 }
 
 @Post('id')

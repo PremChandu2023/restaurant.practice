@@ -1,23 +1,14 @@
 import { Body, Controller, Get, NotFoundException, Param, Post, Put, Headers, Redirect, Delete, Query, Res } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiTags, ApiHeader, ApiBody, ApiOkResponse, ApiProperty, ApiNotFoundResponse, getSchemaPath, ApiUnauthorizedResponse, ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiCreatedResponse, ApiBadRequestResponse, ApiConflictResponse } from "@nestjs/swagger";
-import {ApiResponses} from "./books-responses"
-import { BookProperties } from "./books-dtos";
+import { ApiTags } from "@nestjs/swagger";
 import { Books, GetBookId, Library } from "./books.service";
+import { BookCustomDecorator } from "./custom-decarators";
 
 @Controller("/book")
 @ApiTags("Book")
 export class Bookscontroller {
   //Get request
   @Get('/:id')
-  @ApiOperation({ summary: 'Get all books' })
-
-  // @ApiOkResponse({ description: 'Book data found' })
-  @ApiOkResponse(ApiResponses.get.ok)
-  @ApiBadRequestResponse(ApiResponses.get.Badrequest)
-  @ApiUnauthorizedResponse(ApiResponses.get.unauthorized)
-  @ApiForbiddenResponse(ApiResponses.get.forbidden)
-  @ApiInternalServerErrorResponse(ApiResponses.get.internalservererror)
-  @ApiHeader({ name: 'Authorization', description: 'requires authorization' })
+  @BookCustomDecorator("Get", '/:id')
   getBooks(@Param('id') bookId: GetBookId) {
     let bookID: number = parseInt(bookId.id)
     const books = [
@@ -53,17 +44,7 @@ export class Bookscontroller {
   }
   /////post ******
   @Post("/")
-  @ApiHeader({ name: 'Authorization', description: 'Bearer token for authentication' })
-  @ApiOperation({ summary: 'Add the books in books array' })
-  @ApiBody({
-
-    description: "Book object to be created",
-    type: Books
-  })
-  @ApiCreatedResponse(ApiResponses.post.created)
-  @ApiBadRequestResponse(ApiResponses.post.badrequest)
-  @ApiConflictResponse(ApiResponses.post.conflict)
-  @ApiInternalServerErrorResponse(ApiResponses.post.internalServerError)
+  @BookCustomDecorator("Post", "/")
   createBook(@Body() createBook: Books, @Headers('authorization') authorization): any {
     let books: Books[] = [];
     let newBook = {
@@ -74,25 +55,7 @@ export class Bookscontroller {
   }
   ///put request api
   @Put(":id")
-  @ApiOperation({summary : "Update a book"})
-  @ApiBody({
-    description: "Books to be updated",
-    examples: {
-      example1: {
-        description: "All the required fields needed to be given in body section",
-        value: {
-          title: 'Book Title 1',
-          author: 'Author 1',
-          publishedYear: 2022,
-          genre: 'Fiction',
-        }
-      },
-    },type : BookProperties
-  })
-  @ApiOkResponse(ApiResponses.put.success)
-  @ApiBadRequestResponse(ApiResponses.put.badrequest)
-  @ApiNotFoundResponse(ApiResponses.put.Notfound)
-  @ApiUnauthorizedResponse(ApiResponses.get.unauthorized)
+  @BookCustomDecorator("Put", ":id")
   updateBook(@Param('id') id: number, @Body() updateBook: Book) {
     const books: Book[] = [{
       id: 1,
@@ -126,12 +89,9 @@ export class Bookscontroller {
     })
     return newBook;
   }
-//delete request
-  @Delete(':id')  
-  @ApiOperation({ summary: 'Delete a book by ID' })
-  @ApiOkResponse(ApiResponses.delete.success)
-  @ApiNotFoundResponse(ApiResponses.delete.notfound)
-  @ApiInternalServerErrorResponse(ApiResponses.delete.internalservererror)
+  //delete request
+  @Delete(':id')
+  @BookCustomDecorator("Delete", ":id")
   deleteBook(@Param('id') id: number): void {
     const books: Book[] = [
       { id: 1, book_Name: 'book1', book_author: 'author1' },
@@ -150,14 +110,7 @@ export class Bookscontroller {
   }
   //get api by author or genre
   @Get('/author')
-  @ApiOperation({ summary: 'Get all authors from all books related to each array' })
-  @ApiResponse({
-    description: 'List of books',
-    type: [Library],
-  })
-  @ApiOkResponse(ApiResponses.getauthor.success)
-  @ApiResponse(ApiResponses.getauthor.badrequest)
-  @ApiResponse(ApiResponses.getauthor.unauthorized)
+  @BookCustomDecorator("Get", "author")
   getBooksby(@Query('author') author: string, @Query('genre') genre: string) {
     //Each book object contains properties like id, title, and authors.
     // The authors property is an array of author objects associated with each book.

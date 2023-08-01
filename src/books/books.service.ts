@@ -3,9 +3,6 @@ import { ApiProperty } from "@nestjs/swagger";
 
 
 export class GetBookId {
-    @ApiProperty({example : 200})
-    statusCode : number;
-
     @ApiProperty({example : 1})
     id : string;
 }
@@ -49,11 +46,12 @@ export class Authors {
 }
 
 export class ErrorResponse {
-
-    @ApiProperty({example : 200})
-    statusCode: number;
-
     @ApiProperty({example : "Given Request has been executed succesfully"})
     message : string;
     
+}
+
+export class Response204 {
+    @ApiProperty({example : "Given Request has been executed succesfully, but there was no content"})
+    message : string;
 }

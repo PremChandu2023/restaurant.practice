@@ -1,5 +1,21 @@
-import { Controller } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 
 
-@Controller()
-export class OrderController {}
+@Controller('/Order')
+@ApiTags("Orders")
+export class OrderController {
+
+
+    @Post('/:orderid')
+    createOrder(@Param('id') id:number, @Body() orderdata)
+    {
+        return  ;
+    }
+
+    @Get("/name")
+    getOrders()
+    {
+        return "shbdahbshb"
+    }
+}

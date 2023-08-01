@@ -12,17 +12,18 @@ import { Menumodule } from './restaurant-practice/Menu/menu-module';
 import { Ordermodule } from './restaurant-practice/Orders/order-module';
 import { Menucontroller } from './restaurant-practice/Menu/menu-controller';
 import { ElectronicsModule } from './electronics/electronics-module';
+import { AuthorisationMiddlware } from './restaurant-practice/middlewares/user-agent-middlewares';
 
 
 @Module({
   controllers: [Appcontroller1, Appusercontroller,Exceptionfilters],
   providers : [user_service,],
-  imports : [BooksModule,ElectronicsModule]
+  imports : [Menumodule,BooksModule,ElectronicsModule,Ordermodule]
 })
 export class AppModule implements NestModule {
 
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UserMiddleware).forRoutes("*")
+    consumer.apply(AuthorisationMiddlware).forRoutes("*")
 
   }
 
