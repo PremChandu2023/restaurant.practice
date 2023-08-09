@@ -4,26 +4,39 @@ import { Appusercontroller } from './user/user_controller'
 import {user_service} from './user/user_service'
 import { UserMiddleware } from './user/user_middleware';
 
-import { DocumentBuilder,SwaggerModule } from '@nestjs/swagger';
 import { BooksModule } from './books/books.module';
-import { Exceptionfilters } from './user/exceptions-practice/exception-controller';
-import { Usermodule } from './user/user.module';
 import { Menumodule } from './restaurant-practice/Menu/menu-module';
 import { Ordermodule } from './restaurant-practice/Orders/order-module';
-import { Menucontroller } from './restaurant-practice/Menu/menu-controller';
 import { ElectronicsModule } from './electronics/electronics-module';
+import { ExceptionModule } from './restaurant-practice/exceptions-practice/exceptions-module';
 import { AuthorisationMiddlware } from './restaurant-practice/middlewares/user-agent-middlewares';
+import { RecentsearchInterceptor } from './restaurant-practice/interceptors/interceptor-menu';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './polls/database-type-orm/Entities/User';
+import { PollsModule } from './polls/polls.module';
+
 
 
 @Module({
-  controllers: [Appcontroller1, Appusercontroller,Exceptionfilters],
-  providers : [user_service,],
-  imports : [Menumodule,BooksModule,ElectronicsModule,Ordermodule]
+  controllers: [Appcontroller1, Appusercontroller],
+  providers : [user_service,RecentsearchInterceptor],
+  imports : [TypeOrmModule.forRoot({
+    type : 'mysql',
+    host : 'localhost',
+    port : 3306,
+    username: 'root',
+    password : 'root123',
+    database:'book_database',
+    entities: [User],
+    synchronize: true,
+    // migrationsRun: false
+  }),Menumodule,BooksModule,ElectronicsModule,Ordermodule,ExceptionModule,PollsModule
+            ]
 })
 export class AppModule implements NestModule {
 
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthorisationMiddlware).forRoutes("*")
+   // consumer.apply(AuthorisationMiddlware).forRoutes("*")
 
   }
 

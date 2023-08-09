@@ -638,55 +638,6 @@ paths:
         '200':
           description: ''
       tags: *ref_5
-  /Polls:
-    get:
-      operationId: PollsController_getUserDetails
-      parameters: []
-      responses:
-        '200':
-          description: ''
-  /Polls/create:
-    post:
-      operationId: PollsController_addUser
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserDto'
-      responses:
-        '201':
-          description: ''
-  /Polls/{id}:
-    put:
-      operationId: PollsController_updateUser
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: number
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserDto'
-      responses:
-        '200':
-          description: ''
-    delete:
-      operationId: PollsController_deleteUser
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: number
-      responses:
-        '200':
-          description: ''
 info:
   title: chandu
   description: Your API Description
@@ -786,8 +737,5 @@ components:
         - price
         - variants
     OlympicMedalDto:
-      type: object
-      properties: {}
-    UserDto:
       type: object
       properties: {}

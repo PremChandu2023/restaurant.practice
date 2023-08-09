@@ -13,8 +13,8 @@ export class Menumodule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
         .apply(Useragent)
-        .exclude({path: "menu/id" , method : RequestMethod.POST})
-        .forRoutes(Menucontroller);
+        .exclude({path: "menu/id" , method : RequestMethod.POST},{path: "menu/id" , method : RequestMethod.ALL})
+        .forRoutes();
     }
 
 }

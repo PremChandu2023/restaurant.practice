@@ -1,16 +1,20 @@
-import { Body, Controller, Get, Post, Put, Req } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Put, Req, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
+import { AuthGuard } from "../guards/AUth-guard";
+import { RecentsearchInterceptor } from "../interceptors/interceptor-menu";
+import { CustomBook } from "../custom-decarators/custom-decarrators-Books";
 
 
 @ApiTags("Menu")
 @Controller('menu')
 export class Menucontroller {
 
-@Get('id')
-getMenu(@Req() req : Request)
+@Get(':id')
+// @UseGuards(AuthGuard)
+@UseInterceptors(RecentsearchInterceptor)
+getMenu(@Param('id') id:number, @Req() req : Request)
 {
-    console.log(req["ua"]);
-    return{ success : true, message : "this is the list of menu"}  
+    return   { success : true, message : `this is the list of menu`}  
 }
 
 @Post('id')

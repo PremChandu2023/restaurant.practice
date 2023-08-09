@@ -1,13 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { setupSwagger } from './swagger/swagger'
-
+import { setupSwagger } from './swagger/swaggers';
+import { AuthGuard } from './restaurant-practice/guards/AUth-guard';
 
 
 async function bootstrap() {
-
-
- 
   
   // const options = new DocumentBuilder()
   //   .setTitle("Swagger application")
@@ -26,7 +23,10 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
   setupSwagger(app);
+  // app.useGlobalGuards(new AuthGuard())
   await app.listen(3000);
+
+
 
   // const document = SwaggerModule.createDocument(app, options,)
   // SwaggerModule.setup("api", app, document)
