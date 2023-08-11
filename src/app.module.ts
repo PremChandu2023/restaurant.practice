@@ -14,6 +14,11 @@ import { RecentsearchInterceptor } from './restaurant-practice/interceptors/inte
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './polls/database-type-orm/Entities/User';
 import { PollsModule } from './polls/polls.module';
+import { Profile } from './polls/database-type-orm/Entities/Profile';
+import { Posts } from './polls/database-type-orm/Entities/Post.entity';
+import { Polls } from './polls/database-type-orm/Entities/Polls.entity';
+import { Votes } from './polls/database-type-orm/Entities/Vote.entity';
+import { Option } from './polls/database-type-orm/Entities/Options.entity';
 
 
 
@@ -27,7 +32,7 @@ import { PollsModule } from './polls/polls.module';
     username: 'root',
     password : 'root123',
     database:'book_database',
-    entities: [User],
+    entities: [User,Profile, Posts,Polls,Votes,Option],
     synchronize: true,
     // migrationsRun: false
   }),Menumodule,BooksModule,ElectronicsModule,Ordermodule,ExceptionModule,PollsModule

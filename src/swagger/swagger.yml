@@ -638,27 +638,82 @@ paths:
         '200':
           description: ''
       tags: *ref_5
-  /Polls:
-    get:
-      operationId: PollsController_getUserDetails
-      parameters: []
-      responses:
-        '200':
-          description: ''
-  /Polls/create:
+  /polls:
     post:
-      operationId: PollsController_addUser
+      operationId: PollsController_createPoll
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserDto'
+              $ref: '#/components/schemas/createPollDto'
       responses:
         '201':
           description: ''
-  /Polls/{id}:
+      tags: &ref_6
+        - Polls
+  /polls/{id}/option:
+    post:
+      operationId: PollsController_addOptions
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createOptionDto'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_6
+  /polls/options:
+    get:
+      operationId: PollsController_getAllOptions
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /polls/options/{id}:
+    get:
+      operationId: PollsController_getOptions
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /polls/all:
+    get:
+      operationId: PollsController_getAllPolls
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /polls/{id}:
+    get:
+      operationId: PollsController_getPollsById
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
     put:
       operationId: PollsController_updateUser
       parameters:
@@ -676,6 +731,7 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_6
     delete:
       operationId: PollsController_deleteUser
       parameters:
@@ -687,6 +743,67 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_6
+  /polls/id:
+    get:
+      operationId: PollsController_getUserDetails
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /polls/user:
+    post:
+      operationId: PollsController_addUser
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_6
+  /polls/{id}/profile:
+    post:
+      operationId: PollsController_addUserProfile
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userProfileDto'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_6
+  /polls/{id}/post:
+    post:
+      operationId: PollsController_addUserPost
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userPostDto'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_6
 info:
   title: chandu
   description: Your API Description
@@ -788,6 +905,18 @@ components:
     OlympicMedalDto:
       type: object
       properties: {}
+    createPollDto:
+      type: object
+      properties: {}
+    createOptionDto:
+      type: object
+      properties: {}
     UserDto:
+      type: object
+      properties: {}
+    userProfileDto:
+      type: object
+      properties: {}
+    userPostDto:
       type: object
       properties: {}

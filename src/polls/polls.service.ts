@@ -1,22 +1,76 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { DataSource, Repository } from "typeorm";
 import { User } from "./database-type-orm/Entities/User";
-import { UserDto } from "./Polls-DTOS's/createUerDto";
+import { UserDto, createOptionDto, createPollDto, userProfileDto } from "./Polls-DTOS's/createUerDto";
+import { Profile } from "./database-type-orm/Entities/Profile";
+import { CreateUserPostparams } from "./polls-types/polls-types";
+import { Posts } from "./database-type-orm/Entities/Post.entity";
+import { Polls } from "./database-type-orm/Entities/Polls.entity";
+import { Option } from "./database-type-orm/Entities/Options.entity";
 
 @Injectable()
 export class PollsService {
-    constructor(@InjectRepository(User)  private userRespository: Repository<User>){}
+    constructor(@InjectRepository(User)  private userRespository: Repository<User>, @InjectRepository(Profile) private profileRepository: Repository<Profile>, @InjectRepository(Posts) private postsRepository: Repository<Posts>, @InjectRepository(Polls) private pollRespository: Repository<Polls>,@InjectRepository(Option) private OptionRespository: Repository<Option>){}
 
-   findUsers()
+
+
+
+    
+    createPoll(createPoll:createPollDto)
     {
-       return this.userRespository.find();
+       const newPoll =  this.pollRespository.create(createPoll);
+
+       return  this.pollRespository.save(newPoll)
+
+    }
+
+    async getOptions(id?:number)
+    {
+        if(!id)
+        {
+            return await this.OptionRespository.find();
+        }
+        return await this.OptionRespository.findOneBy({id})
+    }
+
+    async addOption(id:number,addOption : createOptionDto)
+    {
+        const newPoll = await this.pollRespository.findOne({where: { id}})
+        if(!newPoll)
+        {
+            throw new HttpException('Given poll id not found',HttpStatus.BAD_REQUEST);
+        }
+        const newOption = this.OptionRespository.create({...addOption});
+        const savedOption = await this.OptionRespository.save(newOption)
+
+       newPoll.options = [savedOption]
+             const savedPoll =this.pollRespository.save(newPoll)
+        return savedPoll;
+        
+    }
+
+    async getAllPolls(id?: number)
+    {
+        if(!id)
+        {
+            return await this.pollRespository.find();
+        }
+        return await this.pollRespository.findOneBy({id})
+    }
+
+  async  findAllUsers()
+    {
+       const user =await this.userRespository.find();
+
+       return user;
     }
 
    async createUser(createUser: UserDto) {       
        
         const newUser = this.userRespository.create({...createUser,createdAt: new Date()})
-          return await this.userRespository.save(newUser);
+          await this.userRespository.save(newUser);
+          return newUser
     }
 
     async updateUser(id : number,updateUser:UserDto)
@@ -27,6 +81,34 @@ export class PollsService {
     async deleteUserById(id : number)
     {
         return this.userRespository.delete({id})
+    }
+
+    async createUserProfile(id:number, userProfileDto:userProfileDto){
+        const newUser =await this.userRespository.findOneBy({id})
+        if(!newUser)
+        {
+            throw new HttpException('User Not found. Cannot create a new profile',HttpStatus.BAD_REQUEST);  
+        }
+        const newProfile = this.profileRepository.create({...userProfileDto})
+
+        const savedProfile = await this.profileRepository.save(newProfile); 
+        
+        newUser.profile= savedProfile
+
+        return savedProfile;       
+    }
+
+    async createUserPost(id:number, userPost:CreateUserPostparams)
+    {
+       const newUser = await this.userRespository.findOneBy({id});
+       const newPost = this.postsRepository.create({...userPost})
+
+       const savedPosts = await this.postsRepository.save(newPost);
+
+       newUser.posts = [savedPosts]
+       const posts = await this.userRespository.save(newUser);
+
+       return posts;
     }
     
 }

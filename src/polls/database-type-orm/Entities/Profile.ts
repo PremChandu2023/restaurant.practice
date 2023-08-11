@@ -5,18 +5,18 @@ export class Profile {
     @PrimaryGeneratedColumn()
     id:number
 
-    @Column()
+    @Column({nullable:true})
     firstName :string;
-    @Column()
+    @Column({nullable:true})
     lastName:string;
 
-    @Column()
+    @Column({nullable:true})
     age:number;
 
-    @Column()
+    @Column({nullable:true})
     Address: string;
 
-    @Column()
+    @Column({nullable:true})
     dob: string
 
 
