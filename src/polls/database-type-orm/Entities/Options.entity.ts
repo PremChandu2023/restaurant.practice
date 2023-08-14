@@ -16,8 +16,8 @@ export class Option {
     @JoinColumn()
     poll:Polls
 
-    @ManyToMany(() => Votes, (option) => option.options , {eager:true})
-    votes:Votes[];
+    @ManyToMany(() => Votes, (option) => option.options)
+    votes:number;
 
     @Column(() => Dateschema)
     date: Dateschema

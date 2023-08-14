@@ -19,6 +19,10 @@ import { Posts } from './polls/database-type-orm/Entities/Post.entity';
 import { Polls } from './polls/database-type-orm/Entities/Polls.entity';
 import { Votes } from './polls/database-type-orm/Entities/Vote.entity';
 import { Option } from './polls/database-type-orm/Entities/Options.entity';
+import { Question } from './books/question.entity';
+import { Category } from './books/category.entity';
+import { Photo } from './books/Photo.entities';
+import { Users } from './books/user.entities';
 
 
 
@@ -32,7 +36,7 @@ import { Option } from './polls/database-type-orm/Entities/Options.entity';
     username: 'root',
     password : 'root123',
     database:'book_database',
-    entities: [User,Profile, Posts,Polls,Votes,Option],
+    entities: [User,Profile, Posts,Polls,Votes,Option,Question,Category,Users, Photo],
     synchronize: true,
     // migrationsRun: false
   }),Menumodule,BooksModule,ElectronicsModule,Ordermodule,ExceptionModule,PollsModule

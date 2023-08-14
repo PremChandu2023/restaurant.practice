@@ -1,5 +1,6 @@
 // bookResponses.ts
 import { ApiProperty } from "@nestjs/swagger";
+import { IsString } from "class-validator";
 
 export class BookProperties {
   @ApiProperty({ type: Number, example: 1 })
@@ -19,6 +20,28 @@ export class BookProperties {
     
   
 }
+
+export class createQuestionDto {
+    @IsString()
+    title:string
+}
+
+export class createCategoryDto {
+  @IsString()
+  title:string
+}
+
+export class createPhotoDto {
+  @IsString()
+  description:string
+}
+
+export class createUserDto {
+@IsString()
+name:string
+}
+
+
 
 
 

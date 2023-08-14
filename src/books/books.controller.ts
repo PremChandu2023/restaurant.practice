@@ -1,11 +1,40 @@
-import { Body, Controller, Get, NotFoundException, Param, Post, Put, Headers, Redirect, Delete, Query, Res } from "@nestjs/common";
+import { Body, Controller, Get, NotFoundException, Param, Post, Put, Headers, Redirect, Delete, Query, Res, ParseIntPipe } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Books, GetBookId, Library } from "./books.service";
 import { BookCustomDecorator } from "./custom-decarators";
+import { BookService } from "./books-service";
+import { createCategoryDto, createQuestionDto } from "./books-dtos";
 
 @Controller("/book")
 @ApiTags("Book")
 export class Bookscontroller {
+
+  constructor(private bookService: BookService) {}
+
+  //question && category---->
+
+  @Post('/postQuestion')
+  createQuestion(@Body() createQuestion: createQuestionDto) {    
+    return this.bookService.createQuestion(createQuestion);
+  }
+
+  @Post(':id/postcategory')
+  createCategory(@Body() createQuestion: createCategoryDto,@Param('id',ParseIntPipe) id:number) {
+    
+    return this.bookService.createCategory(createQuestion,id);
+  }
+
+  @Get('question')
+  getQuestion()
+  {
+      return this.bookService.getQuestion();
+  }
+
+//--------question&&category----
+
+
+
+
   //Get request
   @Get('/:id')
   @BookCustomDecorator("Get", '/:id')

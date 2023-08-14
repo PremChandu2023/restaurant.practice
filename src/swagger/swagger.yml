@@ -85,6 +85,48 @@ paths:
         '200':
           description: ''
       tags: *ref_1
+  /book/postQuestion:
+    post:
+      operationId: Bookscontroller_createQuestion
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createQuestionDto'
+      responses:
+        '201':
+          description: ''
+      tags: &ref_2
+        - Book
+  /book/{id}/postcategory:
+    post:
+      operationId: Bookscontroller_createCategory
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createCategoryDto'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_2
+  /book/question:
+    get:
+      operationId: Bookscontroller_getQuestion
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
   /book/{id}:
     get:
       operationId: Bookscontroller_getBooks
@@ -188,8 +230,7 @@ paths:
                     server errors.
                   value:
                     message: ' It_has_an_internal_server_errors.'
-      tags: &ref_3
-        - Book
+      tags: *ref_2
     put:
       operationId: Bookscontroller_updateBook
       summary: Update a book
@@ -220,7 +261,7 @@ paths:
           content:
             application/json:
               examples:
-                SuccessfulBookUpdate: &ref_2
+                SuccessfulBookUpdate: &ref_3
                   description: >-
                     The client sends a PUT request to update an existing book
                     resource,
@@ -230,7 +271,7 @@ paths:
                     author: Author 1
                     publishedYear: 2022
                     genre: Fiction
-                Bookauthor: *ref_2
+                Bookauthor: *ref_3
         '400':
           description: Bad request
           content:
@@ -296,7 +337,7 @@ paths:
                   value:
                     message: >-
                       The_server_needs_the_book-ID_to_identify_which_book_to_update.
-      tags: *ref_3
+      tags: *ref_2
     delete:
       operationId: Bookscontroller_deleteBook
       summary: Delete a book by ID
@@ -366,7 +407,7 @@ paths:
                     operation for a book 
                   value:
                     mesaage: Unhandled errors can lead to a 500 status code.
-      tags: *ref_3
+      tags: *ref_2
   /book:
     post:
       operationId: Bookscontroller_createBook
@@ -469,7 +510,7 @@ paths:
                     server errors.
                   value:
                     message: ' It_has_an_internal_server_errors.'
-      tags: *ref_3
+      tags: *ref_2
   /book/author:
     get:
       operationId: Bookscontroller_getBooksby
@@ -498,7 +539,38 @@ paths:
                     response.
                   value:
                     message: 'Unauthorized: Invalid or missing authentication token'
-      tags: *ref_3
+      tags: *ref_2
+  /usersof:
+    post:
+      operationId: UserController_createQuestion
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUserDto'
+      responses:
+        '201':
+          description: ''
+  /usersof/{id}/postphoto:
+    post:
+      operationId: UserController_createPhoto
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createPhotoDto'
+      responses:
+        '201':
+          description: ''
   /store:
     post:
       operationId: ElectronicsController_createElectronicStore
@@ -814,6 +886,12 @@ servers:
   - url: http://localhost:3000
 components:
   schemas:
+    createQuestionDto:
+      type: object
+      properties: {}
+    createCategoryDto:
+      type: object
+      properties: {}
     Books:
       type: object
       properties:
@@ -865,6 +943,12 @@ components:
           example: Given Request has been executed succesfully
       required:
         - message
+    createUserDto:
+      type: object
+      properties: {}
+    createPhotoDto:
+      type: object
+      properties: {}
     ProductVariant:
       type: object
       properties:

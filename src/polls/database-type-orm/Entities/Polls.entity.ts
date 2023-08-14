@@ -16,6 +16,8 @@ export class Polls {
 
     @OneToMany( ()=> Option,(options) => options.poll)
     options: Option[];
+
+    
     
 
     @Column(() => Dateschema)

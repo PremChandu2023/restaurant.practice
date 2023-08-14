@@ -10,7 +10,7 @@ export class Votes {
 
     @ManyToMany(()=> Option, (votes) => votes.votes)
     @JoinTable()
-    options:Option[];
+    options:number;
     
     @Column(() => Dateschema)
     date: Dateschema
