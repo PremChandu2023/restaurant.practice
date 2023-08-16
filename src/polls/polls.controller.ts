@@ -5,7 +5,7 @@ import { PollsService } from "./polls.service";
 import { ApiTags } from "@nestjs/swagger";
 
 @ApiTags('Polls')
-@Controller('/polls')
+@Controller('polls')
 export class PollsController  {
     constructor(private userService:PollsService){}
 
@@ -33,17 +33,17 @@ export class PollsController  {
        return  this.userService.getOptions(id);
    }
 
-   @Get('all')
+   @Get('/all')
    getAllPolls()
    {
        return this.userService.getAllPolls();
    }
 
-   @Get('/:id')
-   getPollsById(@Param('id', ParseIntPipe) id:number)
-   {
-       return this.userService.getAllPolls(id);
-   }
+//    @Get('/:id')
+//    getPollsById(@Param('id', ParseIntPipe) id:number)
+//    {
+//        return this.userService.getAllPolls(id);
+//    }
 
 
 
@@ -51,7 +51,7 @@ export class PollsController  {
 
 
 //---> users, posts
-    @Get('/id')
+    @Get('/allUsers')
     getUserDetails()
     {
       
@@ -59,6 +59,12 @@ export class PollsController  {
          return users;
        
     }
+
+   @Get('/user/:id')
+   getPollsById(@Param('id', ParseIntPipe) id:number)
+   {
+       return this.userService.findUserById(id);
+   }
 
     @Post('/user')
     addUser(@Body() user:UserDto)

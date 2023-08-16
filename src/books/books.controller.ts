@@ -18,6 +18,13 @@ export class Bookscontroller {
     return this.bookService.createQuestion(createQuestion);
   }
 
+  @Get('/:id')
+  getQuestionById(@Param('id', ParseIntPipe) id:number )
+  {
+    return  this.bookService.findQuestionByid(id);
+  }
+  
+
   @Post(':id/postcategory')
   createCategory(@Body() createQuestion: createCategoryDto,@Param('id',ParseIntPipe) id:number) {
     

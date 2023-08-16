@@ -10,7 +10,7 @@ export class Question {
     @Column()
     title:string
 
-    @ManyToOne(()=> Category, (questions) => questions.question)
+    @ManyToMany(()=> Category, (questions) => questions.question)
     @JoinTable()
-    category:Category
+    category:Category[]
 }

@@ -24,6 +24,7 @@ export class userPostDto {
 
 export class createPollDto {
 
+    @IsNotEmpty()
     Question:string;
 
     Options: string;

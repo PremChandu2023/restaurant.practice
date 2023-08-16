@@ -39,7 +39,7 @@ import { Users } from './books/user.entities';
     entities: [User,Profile, Posts,Polls,Votes,Option,Question,Category,Users, Photo],
     synchronize: true,
     // migrationsRun: false
-  }),Menumodule,BooksModule,ElectronicsModule,Ordermodule,ExceptionModule,PollsModule
+  }), Menumodule,BooksModule,ElectronicsModule,Ordermodule,ExceptionModule,PollsModule
             ]
 })
 export class AppModule implements NestModule {

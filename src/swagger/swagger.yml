@@ -100,33 +100,6 @@ paths:
           description: ''
       tags: &ref_2
         - Book
-  /book/{id}/postcategory:
-    post:
-      operationId: Bookscontroller_createCategory
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: number
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/createCategoryDto'
-      responses:
-        '201':
-          description: ''
-      tags: *ref_2
-  /book/question:
-    get:
-      operationId: Bookscontroller_getQuestion
-      parameters: []
-      responses:
-        '200':
-          description: ''
-      tags: *ref_2
   /book/{id}:
     get:
       operationId: Bookscontroller_getBooks
@@ -407,6 +380,33 @@ paths:
                     operation for a book 
                   value:
                     mesaage: Unhandled errors can lead to a 500 status code.
+      tags: *ref_2
+  /book/{id}/postcategory:
+    post:
+      operationId: Bookscontroller_createCategory
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createCategoryDto'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_2
+  /book/question:
+    get:
+      operationId: Bookscontroller_getQuestion
+      parameters: []
+      responses:
+        '200':
+          description: ''
       tags: *ref_2
   /book:
     post:
@@ -773,7 +773,15 @@ paths:
         '200':
           description: ''
       tags: *ref_6
-  /polls/{id}:
+  /polls/allUsers:
+    get:
+      operationId: PollsController_getUserDetails
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /polls/user/{id}:
     get:
       operationId: PollsController_getPollsById
       parameters:
@@ -786,6 +794,21 @@ paths:
         '200':
           description: ''
       tags: *ref_6
+  /polls/user:
+    post:
+      operationId: PollsController_addUser
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_6
+  /polls/{id}:
     put:
       operationId: PollsController_updateUser
       parameters:
@@ -814,28 +837,6 @@ paths:
             type: number
       responses:
         '200':
-          description: ''
-      tags: *ref_6
-  /polls/id:
-    get:
-      operationId: PollsController_getUserDetails
-      parameters: []
-      responses:
-        '200':
-          description: ''
-      tags: *ref_6
-  /polls/user:
-    post:
-      operationId: PollsController_addUser
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserDto'
-      responses:
-        '201':
           description: ''
       tags: *ref_6
   /polls/{id}/profile:
