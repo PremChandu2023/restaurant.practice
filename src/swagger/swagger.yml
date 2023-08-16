@@ -641,12 +641,36 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       tags: *ref_4
-  /Order/name:
-    get:
-      operationId: OrderController_getOrders
+  /Orders/menu:
+    post:
+      operationId: OrderController_createMenu
       parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuDto'
       responses:
-        '200':
+        '201':
+          description: ''
+  /Orders/{id}/menuitem:
+    post:
+      operationId: OrderController_createMenuItem
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuItemDto'
+      responses:
+        '201':
           description: ''
   /exception/{id}:
     get:
@@ -794,6 +818,24 @@ paths:
         '200':
           description: ''
       tags: *ref_6
+    put:
+      operationId: PollsController_updateUserDetails
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
   /polls/user:
     post:
       operationId: PollsController_addUser
@@ -877,6 +919,59 @@ paths:
         '201':
           description: ''
       tags: *ref_6
+  /Userdata/allusers:
+    get:
+      operationId: UserControllers_getAllUsers
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: &ref_7
+        - Usesdata
+  /Userdata/allusers/{count}:
+    get:
+      operationId: UserControllers_getAllUsersCount
+      parameters:
+        - name: count
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_7
+  /Userdata/names:
+    get:
+      operationId: UserControllers_getbyNames
+      parameters:
+        - name: firstName
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: lastName
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_7
+  /Userdata/allusersbycondi/{count}:
+    get:
+      operationId: UserControllers_getAllUsersBycondition
+      parameters:
+        - name: count
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_7
 info:
   title: chandu
   description: Your API Description
@@ -987,6 +1082,12 @@ components:
         - name
         - price
         - variants
+    MenuDto:
+      type: object
+      properties: {}
+    MenuItemDto:
+      type: object
+      properties: {}
     OlympicMedalDto:
       type: object
       properties: {}
@@ -997,6 +1098,9 @@ components:
       type: object
       properties: {}
     UserDto:
+      type: object
+      properties: {}
+    UpdateUserDto:
       type: object
       properties: {}
     userProfileDto:

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Res } from "@nestjs/common";
 
-import { UserDto, createOptionDto, createPollDto, userPostDto, userProfileDto } from "./Polls-DTOS's/createUerDto";
+import { UpdateUserDto, UserDto, createOptionDto, createPollDto, userPostDto, userProfileDto } from "./Polls-DTOS's/createUerDto";
 import { PollsService } from "./polls.service";
 import { ApiTags } from "@nestjs/swagger";
 
@@ -75,6 +75,11 @@ export class PollsController  {
     @Put(':id')
     async updateUser(@Param('id', ParseIntPipe) id:number, @Body() updateUser: UserDto ){
            return this.userService.updateUser(id,updateUser)
+    }
+
+    @Put('/user/:id')
+    async updateUserDetails(@Param('id', ParseIntPipe) id:number, @Body() updateUser: UpdateUserDto ){
+           return this.userService.updateUserDetails(id,updateUser)
     }
 
     @Delete(':id')

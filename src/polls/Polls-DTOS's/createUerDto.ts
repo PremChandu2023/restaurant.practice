@@ -4,6 +4,13 @@ export class UserDto {
     userName: string
 
     passWord: string
+}
+export class UpdateUserDto {
+    userFirstName: string
+
+   userLastName: string
+
+   userIncome:number;
 }   
 
 export class userProfileDto {

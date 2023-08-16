@@ -8,7 +8,13 @@ export class User {
     id: number
 
     @Column({ nullable: true })
-    userName: string;
+    userFirstName: string;
+    
+    @Column({ nullable: true })
+    userLastName: string;
+
+    @Column({ nullable: true })
+    userIncome: number;
 
     @Column({ nullable: true })
     passWord: string;

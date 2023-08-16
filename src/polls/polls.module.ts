@@ -8,10 +8,12 @@ import { Posts } from './database-type-orm/Entities/Post.entity';
 import { Polls } from './database-type-orm/Entities/Polls.entity';
 import { Votes } from './database-type-orm/Entities/Vote.entity';
 import { Option } from './database-type-orm/Entities/Options.entity';
+import { UserControllers } from './user-controller';
+import { UserServices } from './user-data-service';
 
 @Module({
     imports: [TypeOrmModule.forFeature([User,Profile,Posts,Polls,Votes,Option])],
-    controllers:[PollsController],
-    providers:[PollsService]
+    controllers:[PollsController, UserControllers],
+    providers:[PollsService, UserServices]
 })
 export class PollsModule {}

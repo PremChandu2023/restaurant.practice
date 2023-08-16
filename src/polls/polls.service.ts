@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DataSource, Repository } from "typeorm";
 import { User } from "./database-type-orm/Entities/User";
-import { UserDto, createOptionDto, createPollDto, userProfileDto } from "./Polls-DTOS's/createUerDto";
+import { UpdateUserDto, UserDto, createOptionDto, createPollDto, userProfileDto } from "./Polls-DTOS's/createUerDto";
 import { Profile } from "./database-type-orm/Entities/Profile";
 import { CreateUserPostparams } from "./polls-types/polls-types";
 import { Posts } from "./database-type-orm/Entities/Post.entity";
@@ -60,10 +60,10 @@ export class PollsService {
         //    return this.userRespository.find();
         return user;
     }
-    async findUserById(id:number) {
+    async findUserById(id:number): Promise<User> {
         // console.log(id+'hjghgjhgjh');
         
-       return await this.userRespository.findOneBy({id})
+       return await this.userRespository.findOne({where: {id:id},relations: ['posts']})
     }
     async createUser(createUser: UserDto) {
 
@@ -76,7 +76,16 @@ export class PollsService {
         return this.userRespository.update({ id }, { ...updateUser })
     }
 
-    async deleteUserById(id: number) {
+    async updateUserDetails(id: number, updateUser: UpdateUserDto) {
+        const updatedUser = await this.userRespository.update({ id }, { ...updateUser })
+        if(!updatedUser)
+        {
+            throw new HttpException('Id not found', HttpStatus.NOT_FOUND)
+        }
+        return new  HttpException('succesfully updated', HttpStatus.ACCEPTED);  
+    }
+
+    async deleteUserById(id: number) {  
         return this.userRespository.delete({ id })
     }
 
