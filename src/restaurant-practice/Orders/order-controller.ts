@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { OrderServices } from "./order-service";
-import { MenuDto, MenuItemDto } from "./orders.dtos";
+import { MenuDto, MenuItemDto, createOrderDTo, updateOrderDto } from "./orders.dtos";
 import { MenuItems } from "./orders.entities/menuitem.entity";
 
 
@@ -21,5 +21,30 @@ export class OrderController {
     {
        return this.orderService.createMenuItem(menuItem,id);
     }
+
+    @Post('/order')
+    createOrder(@Body() createOrder:createOrderDTo)
+    {
+        return this.orderService.createOrder(createOrder);
+    }
+
+
+    @Get('/order/:id')
+    getOrderDetailsById(@Param('id', ParseIntPipe) OrderId:number)
+    {
+        return this.orderService.getOrderById(OrderId)
+    }
+
+    @Get('/ordername/:name')
+    getOrderDetailsByName(@Param('name') OrderName:string)
+    {
+        return this.orderService.getOrderByName(OrderName)
+    }
+    @Put('/ordername/:name')
+    updateOrderQuantity(@Param('name') customerName,@Body() updateOrder:updateOrderDto)
+    {
+       return  this.orderService.updateOrderQuantity(updateOrder,customerName)
+    }
+
 
 }

@@ -672,6 +672,55 @@ paths:
       responses:
         '201':
           description: ''
+  /Orders/order:
+    post:
+      operationId: OrderController_createOrder
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createOrderDTo'
+      responses:
+        '201':
+          description: ''
+  /Orders/order/{id}:
+    get:
+      operationId: OrderController_getOrderDetailsById
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+  /Orders/ordername/{name}:
+    get:
+      operationId: OrderController_getOrderDetailsByName
+      parameters:
+        - name: name
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+    put:
+      operationId: OrderController_updateOrderQuantity
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateOrderDto'
+      responses:
+        '200':
+          description: ''
   /exception/{id}:
     get:
       operationId: ExceptionController_getId
@@ -1086,6 +1135,12 @@ components:
       type: object
       properties: {}
     MenuItemDto:
+      type: object
+      properties: {}
+    createOrderDTo:
+      type: object
+      properties: {}
+    updateOrderDto:
       type: object
       properties: {}
     OlympicMedalDto:
