@@ -28,3 +28,14 @@ export class updateOrderDto {
     menuItem:string
     quantity:3
 }
+
+export class getOrderDto {
+     order_Id : number
+     customer_Name:string
+     orderDetails: orderDetails[]
+     totalPrice: number
+}
+export class orderDetails {
+    order_Name: string
+    price: number
+}

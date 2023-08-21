@@ -13,6 +13,8 @@ import { MenuItems } from "src/restaurant-practice/Orders/orders.entities/menuit
 import { Order } from "src/restaurant-practice/Orders/orders.entities/orders.entity";
 import { OrderItem } from "src/restaurant-practice/Orders/orders.entities/orderitem.entity";
 import { Option } from "./database-type-orm/Entities/Options.entity";
+import { Employee } from "src/restaurant-practice/Entities/employee.entity";
+import { Roles } from "src/restaurant-practice/Orders/orders.entities/employee.entites";
 
 export const restaurentdatabase : TypeOrmModuleOptions  = 
  {
@@ -22,7 +24,7 @@ export const restaurentdatabase : TypeOrmModuleOptions  =
         username: 'root',
         password : 'root123',
         database:'restaurent',
-        entities: [Menu, MenuItems, Order,OrderItem],
+        entities: [Menu, MenuItems, Order,OrderItem, Employee, Roles],
         synchronize: true,
         // migrationsRun: false
 

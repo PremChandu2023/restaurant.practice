@@ -51,6 +51,9 @@ export class PollsController  {
 
 
 //---> users, posts
+
+//one to one ==> users and profile
+//many to many ==> question and category one question can have multiple categories and one category has multiple questions
     @Get('/allUsers')
     getUserDetails()
     {

@@ -17,7 +17,7 @@ export class OrderItem {
     @ManyToOne(()=> Order, (orders) => orders.orderItems)
     orders:Order
 
-    @ManyToOne(()=> MenuItems, (menuitems)=> menuitems.OrderItems)
+    @ManyToOne(()=> MenuItems, (menuitems)=> menuitems.OrderItems,{eager:true})
     menuitems:MenuItems
 
     @Column(() => Dateschema)

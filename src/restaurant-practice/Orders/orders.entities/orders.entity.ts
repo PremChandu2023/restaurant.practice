@@ -11,7 +11,7 @@ export class Order {
     @Column()
     customerName:string;
 
-    @OneToMany(()=> OrderItem, (orderitems)=> orderitems.orders, {eager:false})
+    @OneToMany(()=> OrderItem, (orderitems)=> orderitems.orders, {eager:true})
     orderItems:OrderItem[];
 
 

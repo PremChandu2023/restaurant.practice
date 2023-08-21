@@ -709,6 +709,7 @@ paths:
       responses:
         '200':
           description: ''
+  /Orders/updatordername/{name}:
     put:
       operationId: OrderController_updateOrderQuantity
       parameters: []
