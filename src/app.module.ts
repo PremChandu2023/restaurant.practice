@@ -17,11 +17,12 @@ import { PollsModule } from './polls/polls.module';
 import { CacheModule, CacheInterceptor } from '@nestjs/cache-manager';
 import { book_database, restaurentdatabase} from './polls/database.config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AuthModule } from './restaurant-practice/Auth/auth.module';
 
 @Module({
   controllers: [Appcontroller1, Appusercontroller],
   providers : [user_service,RecentsearchInterceptor],
-  imports : [TypeOrmModule.forRoot(restaurentdatabase), Menumodule,BooksModule,ElectronicsModule,Ordermodule,ExceptionModule,PollsModule]
+  imports : [TypeOrmModule.forRoot(restaurentdatabase), Menumodule,BooksModule,ElectronicsModule,Ordermodule,ExceptionModule,PollsModule,AuthModule]
 })
 export class AppModule implements NestModule {
 

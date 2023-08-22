@@ -1,31 +1,44 @@
-import { Body, Controller, Get, Param, Post, Put, Req, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Req, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "../guards/AUth-guard";
 import { RecentsearchInterceptor } from "../interceptors/interceptor-menu";
 import { CustomBook } from "../custom-decarators/custom-decarrators-Books";
+import { MenuDto, MenuItemDto } from "../Orders/orders.dtos";
+import { MenuService } from "./menu-service";
+import { Request } from "express";
 
 
 @ApiTags("Menu")
 @Controller('menu')
-export class Menucontroller {
-
-@Get(':id')
-// @UseGuards(AuthGuard)
 @UseInterceptors(RecentsearchInterceptor)
-getMenu(@Param('id') id:number, @Req() req : Request)
+export class Menucontroller {
+   constructor(private menuService:MenuService){}
+
+
+@Get()
+@UseGuards(AuthGuard)
+getAllMenuById( @Req() req: Request)
 {
-    return   { success : true, message : `this is the list of menu`}  
+    return this.menuService.getAllItems();
 }
 
-@Post('id')
-addMenu() {
-    return { success : true, message : "Menun is added "};
+@Get(':id/menuitems')
+getMenuItemsById(@Param('id') id:number)
+{
+    return this.menuService.getMenuItemById(id);
 }
 
-@Put('id')
-updateMenu() {
-    return {success :true, message : "menu has been updated "}
+@Post()
+createMenu(@Body() menu:MenuDto)
+{    
+    return this.menuService.createMenu(menu);
 }
+@Post(':id/menuitem')
+createMenuItem(@Body() menuItem:MenuItemDto,@Param('id', ParseIntPipe) id:number)
+{
+   return this.menuService.createMenuItem(menuItem,id);
+}
+
 
 
 }

@@ -56,9 +56,31 @@ paths:
         '200':
           description: ''
       tags: *ref_0
-  /menu/{id}:
+  /menu:
     get:
-      operationId: Menucontroller_getMenu
+      operationId: Menucontroller_getAllMenuById
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: &ref_1
+        - Menu
+    post:
+      operationId: Menucontroller_createMenu
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuDto'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_1
+  /menu/{id}/menuitems:
+    get:
+      operationId: Menucontroller_getMenuItemsById
       parameters:
         - name: id
           required: true
@@ -68,21 +90,24 @@ paths:
       responses:
         '200':
           description: ''
-      tags: &ref_1
-        - Menu
-  /menu/id:
+      tags: *ref_1
+  /menu/{id}/menuitem:
     post:
-      operationId: Menucontroller_addMenu
-      parameters: []
+      operationId: Menucontroller_createMenuItem
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuItemDto'
       responses:
         '201':
-          description: ''
-      tags: *ref_1
-    put:
-      operationId: Menucontroller_updateMenu
-      parameters: []
-      responses:
-        '200':
           description: ''
       tags: *ref_1
   /book/postQuestion:
@@ -641,37 +666,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       tags: *ref_4
-  /Orders/menu:
-    post:
-      operationId: OrderController_createMenu
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MenuDto'
-      responses:
-        '201':
-          description: ''
-  /Orders/{id}/menuitem:
-    post:
-      operationId: OrderController_createMenuItem
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: number
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MenuItemDto'
-      responses:
-        '201':
-          description: ''
   /Orders/order:
     post:
       operationId: OrderController_createOrder
@@ -685,6 +679,8 @@ paths:
       responses:
         '201':
           description: ''
+      tags: &ref_5
+        - Orders
   /Orders/order/{id}:
     get:
       operationId: OrderController_getOrderDetailsById
@@ -697,6 +693,7 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_5
   /Orders/ordername/{name}:
     get:
       operationId: OrderController_getOrderDetailsByName
@@ -709,6 +706,7 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_5
   /Orders/updatordername/{name}:
     put:
       operationId: OrderController_updateOrderQuantity
@@ -722,6 +720,25 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_5
+  /Orders/menuItem:
+    delete:
+      operationId: OrderController_deleteMenuItem
+      parameters:
+        - name: OrderId
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: menuItem
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
   /exception/{id}:
     get:
       operationId: ExceptionController_getId
@@ -734,7 +751,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: &ref_5
+      tags: &ref_6
         - 'custom exceptions  can be sent '
     post:
       operationId: ExceptionController_createMemberId
@@ -749,7 +766,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: *ref_5
+      tags: *ref_6
     put:
       operationId: ExceptionController_updateMember
       parameters: []
@@ -762,7 +779,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_5
+      tags: *ref_6
   /exception/{status}:
     get:
       operationId: ExceptionController_getExceptionfor
@@ -775,7 +792,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_5
+      tags: *ref_6
   /exception/delete:
     delete:
       operationId: ExceptionController_deleteMember
@@ -783,7 +800,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_5
+      tags: *ref_6
   /polls:
     post:
       operationId: PollsController_createPoll
@@ -797,7 +814,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: &ref_6
+      tags: &ref_7
         - Polls
   /polls/{id}/option:
     post:
@@ -817,7 +834,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
   /polls/options:
     get:
       operationId: PollsController_getAllOptions
@@ -825,7 +842,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
   /polls/options/{id}:
     get:
       operationId: PollsController_getOptions
@@ -838,7 +855,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
   /polls/all:
     get:
       operationId: PollsController_getAllPolls
@@ -846,7 +863,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
   /polls/allUsers:
     get:
       operationId: PollsController_getUserDetails
@@ -854,7 +871,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
   /polls/user/{id}:
     get:
       operationId: PollsController_getPollsById
@@ -867,7 +884,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
     put:
       operationId: PollsController_updateUserDetails
       parameters:
@@ -885,7 +902,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
   /polls/user:
     post:
       operationId: PollsController_addUser
@@ -899,7 +916,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
   /polls/{id}:
     put:
       operationId: PollsController_updateUser
@@ -918,7 +935,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
     delete:
       operationId: PollsController_deleteUser
       parameters:
@@ -930,7 +947,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
   /polls/{id}/profile:
     post:
       operationId: PollsController_addUserProfile
@@ -949,7 +966,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
   /polls/{id}/post:
     post:
       operationId: PollsController_addUserPost
@@ -968,7 +985,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
   /Userdata/allusers:
     get:
       operationId: UserControllers_getAllUsers
@@ -976,7 +993,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: &ref_7
+      tags: &ref_8
         - Usesdata
   /Userdata/allusers/{count}:
     get:
@@ -990,7 +1007,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
   /Userdata/names:
     get:
       operationId: UserControllers_getbyNames
@@ -1008,7 +1025,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
   /Userdata/allusersbycondi/{count}:
     get:
       operationId: UserControllers_getAllUsersBycondition
@@ -1021,7 +1038,82 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
+  /auth/employee/login:
+    post:
+      operationId: AuthController_employeeLogin
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginEmployeeDto'
+      responses:
+        '201':
+          description: ''
+      tags: &ref_9
+        - employee
+  /auth/employee/register:
+    post:
+      operationId: AuthController_employeeRegister
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/registerEmployeeDto'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_9
+  /auth/employee/{id}/details:
+    get:
+      operationId: AuthController_getEmployeeDetails
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_9
+  /auth/employee/roles:
+    post:
+      operationId: AuthController_createRoles
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createRoleDto'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_9
+  /auth/employee/updaterole/{id}:
+    put:
+      operationId: AuthController_updateRoles
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateRoleDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_9
 info:
   title: chandu
   description: Your API Description
@@ -1032,6 +1124,19 @@ servers:
   - url: http://localhost:3000
 components:
   schemas:
+    MenuDto:
+      type: object
+      properties: {}
+    MenuItemDto:
+      type: object
+      properties:
+        menu_itemname:
+          type: string
+        price:
+          type: number
+      required:
+        - menu_itemname
+        - price
     createQuestionDto:
       type: object
       properties: {}
@@ -1132,18 +1237,28 @@ components:
         - name
         - price
         - variants
-    MenuDto:
-      type: object
-      properties: {}
-    MenuItemDto:
-      type: object
-      properties: {}
     createOrderDTo:
       type: object
-      properties: {}
+      properties:
+        customerName:
+          type: string
+        items:
+          type: array
+          items:
+            type: string
+      required:
+        - customerName
+        - items
     updateOrderDto:
       type: object
-      properties: {}
+      properties:
+        menuItem:
+          type: string
+        quantity:
+          type: number
+      required:
+        - menuItem
+        - quantity
     OlympicMedalDto:
       type: object
       properties: {}
@@ -1163,5 +1278,17 @@ components:
       type: object
       properties: {}
     userPostDto:
+      type: object
+      properties: {}
+    loginEmployeeDto:
+      type: object
+      properties: {}
+    registerEmployeeDto:
+      type: object
+      properties: {}
+    createRoleDto:
+      type: object
+      properties: {}
+    updateRoleDto:
       type: object
       properties: {}

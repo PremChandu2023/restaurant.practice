@@ -7,7 +7,7 @@ import { Order } from "./orders.entities/orders.entity";
 import { MenuItems } from "./orders.entities/menuitem.entity";
 import { OrderItem } from "./orders.entities/orderitem.entity";
 import { Employee } from "../Entities/employee.entity";
-import { Roles } from "./orders.entities/employee.entites";
+import { Roles } from "../Entities/roles.entities";
 // import { Menumodule } from "../Menu/menu-module";
 
 @Module({

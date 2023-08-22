@@ -1,5 +1,4 @@
-import { Injectable } from "@nestjs/common";
-import { Menuservice } from "../Menu/menu-service";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { Tablemenu } from "../Menu/table-menu";
 import { InjectRepository } from "@nestjs/typeorm";
 import { QueryBuilder, Repository } from "typeorm";
@@ -104,6 +103,16 @@ export class OrderServices {
         const savedOrder = await this.orderItemRespository.save(newOrderItems)
 
         return savedOrder;
+
+    }
+    async deleteMenuItem(orderId:number,menuItemId:number){
+        const newOrder = await this.orderItemRespository.delete({menuitems : {menuitem_id : menuItemId}, orders : {order_id : orderId}},)
+        if(!newOrder)
+       {
+            throw new HttpException('Given Item is not available',HttpStatus.NO_CONTENT)
+       }
+
+        return {message : "Menu Item deleted successfully"};
 
     }
 }

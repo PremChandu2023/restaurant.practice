@@ -10,11 +10,15 @@ export class RecentsearchInterceptor implements NestInterceptor {
         const ctx = context.switchToHttp();
         const request = ctx.getRequest<Request>();
         return next.handle().pipe(map((result) => {
-            result.message = "Thank You For Ordering"
-            result.submittedTime = `response submitted....... after  ${Date.now()}`;
-            console.log(result);
+            // result.message = "Thank You For Ordering"
+            // result.submittedTime = `response submitted....... after  ${Date.now()}`;
+            // console.log(result);
             // console.log(`response submitted....... after  ${Date.now()}`);
-            return result;
+           const modifiedResponse = {
+            succes: true,
+            data : result
+           }
+            return modifiedResponse;
 
         }))
     }

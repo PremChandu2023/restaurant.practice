@@ -14,7 +14,7 @@ import { Order } from "src/restaurant-practice/Orders/orders.entities/orders.ent
 import { OrderItem } from "src/restaurant-practice/Orders/orders.entities/orderitem.entity";
 import { Option } from "./database-type-orm/Entities/Options.entity";
 import { Employee } from "src/restaurant-practice/Entities/employee.entity";
-import { Roles } from "src/restaurant-practice/Orders/orders.entities/employee.entites";
+import { Roles } from "src/restaurant-practice/Entities/roles.entities";
 
 export const restaurentdatabase : TypeOrmModuleOptions  = 
  {
