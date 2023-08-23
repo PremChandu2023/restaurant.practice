@@ -58,7 +58,7 @@ paths:
       tags: *ref_0
   /menu:
     get:
-      operationId: Menucontroller_getAllMenuById
+      operationId: Menucontroller_getAllMenu
       parameters: []
       responses:
         '200':

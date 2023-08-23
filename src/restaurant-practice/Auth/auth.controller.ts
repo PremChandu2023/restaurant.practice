@@ -16,7 +16,7 @@ import { ApiTags } from "@nestjs/swagger";
 export class AuthController  {
     constructor(private authservice:AuthService){}
 
-    @Post('login')
+   @Post('login')
    async employeeLogin(@Body() loginBody: loginEmployeeDto, @Res() response:Response)
     {
        const {token, employee} = await this.authservice.checkLogin(loginBody);

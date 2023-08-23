@@ -16,7 +16,7 @@ export class EmployeeAuthGuard implements CanActivate {
             const payload = await this.jwtService.verifyAsync(token, {
                 secret: 'employeesecret'
             })
-            console.log(payload);
+            // console.log(payload);
             
         }
         catch

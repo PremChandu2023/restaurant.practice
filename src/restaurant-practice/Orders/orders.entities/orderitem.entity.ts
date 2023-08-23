@@ -3,6 +3,7 @@ import { Dateschema } from "src/polls/database-type-orm/Entities/date.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Order } from "./orders.entity";
 import { MenuItems } from "./menuitem.entity";
+import { Exclude } from "class-transformer";
 
 @Entity('orderitem')
 export class OrderItem {
@@ -20,6 +21,7 @@ export class OrderItem {
     @ManyToOne(()=> MenuItems, (menuitems)=> menuitems.OrderItems,{eager:true})
     menuitems:MenuItems
 
+    @Exclude()
     @Column(() => Dateschema)
     date: Dateschema
 

@@ -28,7 +28,7 @@ export class Employee {
     @Column()
     phoneNumber:number
 
-    @ManyToOne(() => Roles, (roles) => roles.employees, {eager : false})
+    @ManyToOne(() => Roles, (roles) => roles.employees, {eager : true})
     roles:Roles
 
     @Column(() => Dateschema)

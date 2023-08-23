@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { setupSwagger } from './swagger/swaggers';
-import { AuthGuard } from './restaurant-practice/guards/AUth-guard';
+import { AuthGuard } from './restaurant-practice/guards/Auth-guard';
 import { Validator } from 'class-validator';
 import { ValidationPipe } from '@nestjs/common';
 

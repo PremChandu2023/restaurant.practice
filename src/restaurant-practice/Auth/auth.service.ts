@@ -18,9 +18,7 @@ export class AuthService {
     async checkLogin(createLogin: loginEmployeeDto)
     {
         
-        const employee =await this.employeeRespository.createQueryBuilder('employee')
-        .where('employee.email = :email',{email : createLogin.email}).getOne();
-        // console.log(employee);
+        const employee = await this.employeeRespository.findOne({ where : {email : createLogin.email}})
         if(!employee)
         {
             throw new UnauthorizedException('Bad credentials')
@@ -29,9 +27,7 @@ export class AuthService {
             //verify hashed request and password in database
           if(await  this.verifyPassword(createLogin.password, employee.password)) 
           {
-                const token =await this.jwtService.signAsync({email: employee.email,
-                    id: employee.id
-                })
+                const token =await this.jwtService.signAsync({employee})
                 delete employee.password;
                 return {token, employee}
           }
@@ -58,6 +54,9 @@ export class AuthService {
         // console.log(newEmployee);
         // console.log(employee);
         Object.assign(newEmployee,employee);
+        const Role = await this.rolesRespository.findOne({where : {name : employee.role}}) 
+        newEmployee.roles=Role;
+            // console.log(newEmployee);
         await this.employeeRespository.save(newEmployee)
         delete newEmployee.password;
         return newEmployee;

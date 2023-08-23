@@ -5,11 +5,17 @@ import { MenuService } from "./menu-service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Menu } from "../Orders/orders.entities/menu.entity";
 import { MenuItems } from "../Orders/orders.entities/menuitem.entity";
+import { JwtModule } from "@nestjs/jwt";
 
 @Module({
 
 controllers : [Menucontroller],
-imports: [TypeOrmModule.forFeature([Menu,MenuItems])],
+imports: [TypeOrmModule.forFeature([Menu,MenuItems]), JwtModule.register({
+    secret: 'employeesecret',
+    signOptions : {algorithm : 'HS512',
+    expiresIn : '1d'
+                }
+})],
 providers : [MenuService]
 })
 export class Menumodule  {

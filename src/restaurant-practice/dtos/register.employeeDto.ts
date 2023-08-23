@@ -21,6 +21,8 @@ export class registerEmployeeDto {
     password:string
 
     phoneNumber:number
+    @IsNotEmpty()
+    role: string
 
 
 }
