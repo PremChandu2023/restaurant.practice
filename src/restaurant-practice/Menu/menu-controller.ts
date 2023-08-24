@@ -40,8 +40,8 @@ createMenu(@Body() menu:MenuDto)
 {    
     return this.menuService.createMenu(menu);
 }
-@Post(':id/menuitem')
 @Roles(Role.Waiter)
+@Post(':id/menuitem')
 createMenuItem(@Body() menuItem:MenuItemDto,@Param('id', ParseIntPipe) id:number)
 {
    return this.menuService.createMenuItem(menuItem,id);

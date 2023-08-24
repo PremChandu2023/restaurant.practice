@@ -1,7 +1,9 @@
-import { IsNotEmpty } from "class-validator";
+import { IsArray, IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { OrderItem } from "./orders.entities/orderitem.entity";
 import { Injectable } from "@nestjs/common";
 import { ApiProperty } from "@nestjs/swagger";
+import { OrderStatus } from "../Menu/enums/order.enum";
+import { PaymentStatus } from "../Menu/enums/payment.enum";
 
 export class MenuDto  {
     @IsNotEmpty()
@@ -9,34 +11,55 @@ export class MenuDto  {
 }
 @Injectable()
 export class MenuItemDto  {
-    @ApiProperty()
+    @ApiProperty({example : 'Pancakes'})
     menu_itemname:string
-    @ApiProperty()
+    @ApiProperty({example : 20})
+    @IsNotEmpty()
     price:number;
 }
-
-export class createOrderDTo {
-    @ApiProperty()
-    customerName:string
-    @ApiProperty()
-    items:OrderItemDTo[];
-}
-
+@Injectable()
 export class OrderItemDTo {
-    @ApiProperty()
+    @ApiProperty({example : 1})
+    @IsNumber()
+    @IsNotEmpty()
     menuItemId:number;
-    @ApiProperty()
+
+    @ApiProperty({example : 2})
+    @IsNumber()
+    @IsNotEmpty()
     quantity:number
     
 }
+@Injectable()
+export class createOrderDTo {
+    @ApiProperty({example : "premchandu"})
+    @IsString()
+    @IsNotEmpty({message: 'IT SHORLOFJEHF'})
+    customerName:string
 
-export class updateOrderDto {
-    @ApiProperty()
-    menuItem:string
-    @ApiProperty()
-    quantity:3
+    @ApiProperty({example :20 })
+    tableNumber: number
+
+    
+    @ApiProperty({ type : [OrderItemDTo] ,example : [ {
+        "menuItemId": 3,
+        "quantity": 1
+    }, {
+        "menuItemId": 4,
+        "quantity": 1
+    }]})
+    items:OrderItemDTo[];
 }
 
+
+@Injectable()
+export class updateOrderDto {
+    @ApiProperty({example : 'Pancakes'})
+    menuItem:string
+    @ApiProperty({example : 10})
+    quantity:3
+}
+@Injectable()
 export class getOrderDto {
     @ApiProperty()
      order_Id : number
@@ -47,9 +70,17 @@ export class getOrderDto {
      @ApiProperty()
      totalPrice: number
 }
+@Injectable()
 export class orderDetails {
     @ApiProperty()
     order_Name: string
     @ApiProperty()
     price: number
+    @ApiProperty()
+    tax : number
+}
+@Injectable()
+export class updatePaymentDTo {
+    @ApiProperty({type : IsEnum})
+    orderStatus: PaymentStatus;
 }

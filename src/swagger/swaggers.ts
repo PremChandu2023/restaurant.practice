@@ -15,6 +15,7 @@ export function setupSwagger(app: INestApplication): void {
     .setTitle('chandu')
     .setDescription('Your API Description')
     .setVersion('1.0')
+    .addBearerAuth()
     .addServer('http://localhost:3000') 
     .build();
 

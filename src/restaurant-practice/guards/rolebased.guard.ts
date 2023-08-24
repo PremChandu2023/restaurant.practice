@@ -4,15 +4,14 @@ import { JwtService } from "@nestjs/jwt";
 import {Request} from 'express';
 import { ROLES_KEY, Roles } from "../custom-decarators/custom-roles-decarator";
 import { Role } from "../Menu/enums/roles.enums";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Employee } from "../Entities/employee.entity";
 
 @Injectable()
 export class RolesGuard  implements CanActivate{
     constructor(private jwtService : JwtService,private reflector:Reflector) {}
    async  canActivate(context : ExecutionContext)
     {   
-      const requiredRoles=   this.reflector.getAllAndOverride<Role[]>(ROLES_KEY,[context.getHandler(),context.getClass()]);
+      const requiredRoles=   this.reflector.getAllAndOverride<Role[]>(ROLES_KEY,[context.getHandler(),
+        context.getClass()]);
         if(!requiredRoles)
         {
             return true;
@@ -20,7 +19,7 @@ export class RolesGuard  implements CanActivate{
         const request = context.switchToHttp().getRequest<Request>()
         const  token = this.getTokenFromHeader(request);
         
-        const employee = await this.jwtService.verifyAsync(token);
+        const employee = await this.jwtService.verifyAsync(token , {secret : 'employeesecret'});
       
        const value = requiredRoles.some((roles) =>  employee?.employee?.roles?.name === roles)     
        return value;

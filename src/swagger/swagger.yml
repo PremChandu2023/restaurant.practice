@@ -666,7 +666,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       tags: *ref_4
-  /Orders/order:
+  /Orders:
     post:
       operationId: OrderController_createOrder
       parameters: []
@@ -677,10 +677,50 @@ paths:
             schema:
               $ref: '#/components/schemas/createOrderDTo'
       responses:
-        '201':
-          description: ''
+        '200':
+          description: Creats the new Order
+          content:
+            application/json:
+              examples:
+                Order:
+                  description: Gives the order details
+                  value:
+                    succes: true
+                    data:
+                      customerName: premchandu
+                      tableNumber: 20
+                      order_id: 14
+                      date:
+                        createdDate: '2023-08-24T08:24:49.956Z'
+                        updatedDate: '2023-08-24T08:24:49.956Z'
+                OrderById:
+                  description: Gives the order details
+                  value:
+                    succes: true
+                    data:
+                      order_id: 11
+                      customerName: ramanjenulu
+                      tableNumber: 0
+                      orderStatus: completed
+                      paymentStatus: approved
+                      orderItems:
+                        - orderItem_id: 17
+                          quantity: 3000
+                          menuitems:
+                            menuitem_id: 4
+                            menu_itemname: Pancakes
+                            price: 10
+                            tax: 5
+                OrderIdNotFound:
+                  description: Gives the order details
+                  value:
+                    message: Invalid id Order with given id is not available
+                    error: Not Found
+                    statusCode: 404
       tags: &ref_5
         - Orders
+      security: &ref_6
+        - bearer: []
   /Orders/order/{id}:
     get:
       operationId: OrderController_getOrderDetailsById
@@ -692,8 +732,75 @@ paths:
             type: number
       responses:
         '200':
-          description: ''
+          description: Gives the orders details by given id
+          content:
+            application/json:
+              examples:
+                Success:
+                  description: Gives the order details
+                  value:
+                    succes: true
+                    data:
+                      order_id: 11
+                      customerName: ramanjenulu
+                      tableNumber: 0
+                      orderStatus: completed
+                      paymentStatus: approved
+                      orderItems:
+                        - orderItem_id: 17
+                          quantity: 3000
+                          menuitems:
+                            menuitem_id: 4
+                            menu_itemname: Pancakes
+                            price: 10
+                            tax: 5
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              examples:
+                AcceswithoutAuthorization:
+                  description: ' If the client attempts to access certain book-related endpoints without providing any authentication credentials'
+                  value:
+                    message: Authentication_is_required_to_access_the_resource.
+                ExpiredAuthenticationToken:
+                  description: >-
+                    When the client sends an authentication token that is
+                    invalid, expired, or not recognized by the server
+                  value:
+                    message: client's_token_is_not_valid_for_the_requested_operation
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              examples:
+                InsufficientPrivileges:
+                  description: ' If the client provides authentication credentials, but the credentials do not grant sufficient privileges to access a specific book-related operation'
+                  value:
+                    message: >-
+                      client_does_not_have_the_required_authorization_to_perform_the_requested_action.
+                RoleBasedAccessControl:
+                  description: >-
+                    If the API uses role-based access control, the server may
+                    respond with a 403 status code when a user with a certain
+                    role tries to access an operation that requires a higher
+                    role or specific permissions.
+                  value:
+                    message: >-
+                      User_with_this_role_is_not_permitted_to_access_the_resource
+        '404':
+          description: Order with id not found
+          content:
+            application/json:
+              examples:
+                NotFound:
+                  description: Gives the order details
+                  value:
+                    message: Invalid id Order with given id is not available
+                    error: Not Found
+                    statusCode: 404
       tags: *ref_5
+      security: *ref_6
   /Orders/ordername/{name}:
     get:
       operationId: OrderController_getOrderDetailsByName
@@ -707,10 +814,16 @@ paths:
         '200':
           description: ''
       tags: *ref_5
-  /Orders/updatordername/{name}:
+      security: *ref_6
+  /Orders/updateQuantity:
     put:
       operationId: OrderController_updateOrderQuantity
-      parameters: []
+      parameters:
+        - name: name
+          required: true
+          in: query
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -721,6 +834,7 @@ paths:
         '200':
           description: ''
       tags: *ref_5
+      security: *ref_6
   /Orders/menuItem:
     delete:
       operationId: OrderController_deleteMenuItem
@@ -739,6 +853,27 @@ paths:
         '200':
           description: ''
       tags: *ref_5
+      security: *ref_6
+  /Orders/{id}/updateStatus:
+    patch:
+      operationId: OrderController_updatePaymentStatus
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updatePaymentDTo'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+      security: *ref_6
   /exception/{id}:
     get:
       operationId: ExceptionController_getId
@@ -751,7 +886,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: &ref_6
+      tags: &ref_7
         - 'custom exceptions  can be sent '
     post:
       operationId: ExceptionController_createMemberId
@@ -766,7 +901,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
     put:
       operationId: ExceptionController_updateMember
       parameters: []
@@ -779,7 +914,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
   /exception/{status}:
     get:
       operationId: ExceptionController_getExceptionfor
@@ -792,7 +927,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
   /exception/delete:
     delete:
       operationId: ExceptionController_deleteMember
@@ -800,7 +935,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
   /polls:
     post:
       operationId: PollsController_createPoll
@@ -814,7 +949,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: &ref_7
+      tags: &ref_8
         - Polls
   /polls/{id}/option:
     post:
@@ -834,7 +969,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
   /polls/options:
     get:
       operationId: PollsController_getAllOptions
@@ -842,7 +977,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
   /polls/options/{id}:
     get:
       operationId: PollsController_getOptions
@@ -855,7 +990,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
   /polls/all:
     get:
       operationId: PollsController_getAllPolls
@@ -863,7 +998,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
   /polls/allUsers:
     get:
       operationId: PollsController_getUserDetails
@@ -871,7 +1006,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
   /polls/user/{id}:
     get:
       operationId: PollsController_getPollsById
@@ -884,7 +1019,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
     put:
       operationId: PollsController_updateUserDetails
       parameters:
@@ -902,7 +1037,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
   /polls/user:
     post:
       operationId: PollsController_addUser
@@ -916,7 +1051,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
   /polls/{id}:
     put:
       operationId: PollsController_updateUser
@@ -935,7 +1070,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
     delete:
       operationId: PollsController_deleteUser
       parameters:
@@ -947,7 +1082,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
   /polls/{id}/profile:
     post:
       operationId: PollsController_addUserProfile
@@ -966,7 +1101,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
   /polls/{id}/post:
     post:
       operationId: PollsController_addUserPost
@@ -985,7 +1120,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: *ref_7
+      tags: *ref_8
   /Userdata/allusers:
     get:
       operationId: UserControllers_getAllUsers
@@ -993,7 +1128,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: &ref_8
+      tags: &ref_9
         - Usesdata
   /Userdata/allusers/{count}:
     get:
@@ -1007,7 +1142,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_8
+      tags: *ref_9
   /Userdata/names:
     get:
       operationId: UserControllers_getbyNames
@@ -1025,7 +1160,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_8
+      tags: *ref_9
   /Userdata/allusersbycondi/{count}:
     get:
       operationId: UserControllers_getAllUsersBycondition
@@ -1038,7 +1173,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_8
+      tags: *ref_9
   /auth/employee/login:
     post:
       operationId: AuthController_employeeLogin
@@ -1052,7 +1187,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: &ref_9
+      tags: &ref_10
         - employee
   /auth/employee/register:
     post:
@@ -1067,7 +1202,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: *ref_9
+      tags: *ref_10
   /auth/employee/{id}/details:
     get:
       operationId: AuthController_getEmployeeDetails
@@ -1080,7 +1215,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_9
+      tags: *ref_10
   /auth/employee/roles:
     post:
       operationId: AuthController_createRoles
@@ -1094,7 +1229,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: *ref_9
+      tags: *ref_10
   /auth/employee/updaterole/{id}:
     put:
       operationId: AuthController_updateRoles
@@ -1113,7 +1248,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_9
+      tags: *ref_10
 info:
   title: chandu
   description: Your API Description
@@ -1123,6 +1258,11 @@ tags: []
 servers:
   - url: http://localhost:3000
 components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
   schemas:
     MenuDto:
       type: object
@@ -1132,8 +1272,10 @@ components:
       properties:
         menu_itemname:
           type: string
+          example: Pancakes
         price:
           type: number
+          example: 20
       required:
         - menu_itemname
         - price
@@ -1237,28 +1379,62 @@ components:
         - name
         - price
         - variants
+    OrderItemDTo:
+      type: object
+      properties:
+        menuItemId:
+          type: number
+          example: 1
+        quantity:
+          type: number
+          example: 2
+      required:
+        - menuItemId
+        - quantity
     createOrderDTo:
       type: object
       properties:
         customerName:
           type: string
+          example: premchandu
+        tableNumber:
+          type: number
+          example: 20
         items:
+          example:
+            - menuItemId: 3
+              quantity: 1
+            - menuItemId: 4
+              quantity: 1
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/OrderItemDTo'
       required:
         - customerName
+        - tableNumber
         - items
     updateOrderDto:
       type: object
       properties:
         menuItem:
           type: string
+          example: Pancakes
         quantity:
           type: number
+          example: 10
       required:
         - menuItem
         - quantity
+    IsEnum:
+      type: object
+      properties: {}
+    updatePaymentDTo:
+      type: object
+      properties:
+        orderStatus:
+          $ref: '#/components/schemas/IsEnum'
+      required:
+        - orderStatus
     OlympicMedalDto:
       type: object
       properties: {}

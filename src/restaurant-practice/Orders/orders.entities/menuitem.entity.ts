@@ -22,6 +22,9 @@ export class MenuItems {
     @OneToMany(()=> OrderItem, (orderitems)=> orderitems.menuitems)
     OrderItems:OrderItem[]
 
+    @Column()
+    tax:number;
+
     @Exclude()
     @Column(() => Dateschema)
     date: Dateschema
