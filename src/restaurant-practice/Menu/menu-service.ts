@@ -5,6 +5,7 @@ import { Repository } from "typeorm";
 import { MenuItems } from "../Orders/orders.entities/menuitem.entity";
 import { MenuDto, MenuItemDto } from "../Orders/orders.dtos";
 import { classToPlain } from "class-transformer";
+import { getMenuItemDto } from "./menu-dtos";
 
 @Injectable()
 export class MenuService {
@@ -37,12 +38,26 @@ export class MenuService {
     }
     async getMenuItemById(id:number)
     {
-        const newMenuItem = await this.menuItemsRepository.findOne({where : {menuitem_id : id}})
+        const newMenuItem = await this.menuItemsRepository.findOne({where : {menuitem_id : id}, relations : ['menus']})
+        console.log(newMenuItem.menus.menu_name);
+        
+        if((newMenuItem.menus.menu_name)=== null)
+        {
+            throw new BadRequestException('Menutype_is_not_found_with_requested_id');
+        }
+        console.log(newMenuItem);
+        
         if(!newMenuItem)
         {
             throw new HttpException({message : 'Given_id_is_not_found'}, HttpStatus.BAD_REQUEST)
         }
-        return newMenuItem;
+        const newMenuItems : getMenuItemDto = {
+            menu_itemname : newMenuItem.menu_itemname,
+            menuitem_id: newMenuItem.menuitem_id,
+            menu_type : newMenuItem.menus.menu_name,
+            price: newMenuItem.price
+        }
+        return newMenuItems;
     }
 
 
