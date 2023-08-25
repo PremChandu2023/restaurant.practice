@@ -110,9 +110,9 @@ export class OrderServices {
                 customerName: customerName,
             }, select: { order_id: true }
         })
-        console.log(newOrderid);
+        // console.log(newOrderid);
         
-        if(newOrderid)
+        if(!newOrderid)
         {
             throw new BadRequestException('Id_with_given_customerName_is_not_avalaible');
         }
@@ -121,19 +121,26 @@ export class OrderServices {
                 orders: { order_id: newOrderid.order_id }, menuitems: { menu_itemname: updateOrder.menuItem }
             }
         })
+        if(!newOrderItems)
+        {
+            throw new BadRequestException('Invalid_Menuitem_name');
+        }
         newOrderItems.quantity = updateOrder.quantity;
         const savedOrder = await this.orderItemRespository.save(newOrderItems);
-
-        return savedOrder;
+        const transformOrder =await plainToClass(Order,savedOrder, {excludeExtraneousValues :false})
+        return transformOrder;
 
     }
     async deleteMenuItem(orderId:number,menuItemId:number){
         const newOrder = await this.orderItemRespository.delete({menuitems : {menuitem_id : menuItemId}, orders : {order_id : orderId}},)
-        if(!newOrder)
-       {
-            throw new HttpException('Given Item is not available',HttpStatus.NO_CONTENT)
-       }
-
+        console.log(newOrder);
+        
+    //     const newOrderItemId = await this.orderItemRespository.findOne({where : {menuitems : {menuitem_id : menuItemId},orders : {order_id : orderId}},select : {orderItem_id : true}})
+    //     if(!newOrderItemId)
+    //    {
+    //         throw new HttpException('Given Item is not available',HttpStatus.BAD_REQUEST)
+    //    }
+    //    const deletedOrder = await this.orderItemRespository.
         return {message : "Menu Item deleted successfully"};
     }    
     async updatePaymentandOrderStatus(updateBody:updatePaymentDTo, orderId : number,)

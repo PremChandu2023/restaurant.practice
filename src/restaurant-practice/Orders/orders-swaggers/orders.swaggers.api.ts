@@ -9,7 +9,7 @@ export const OrderApiResponse  = {
           content: {
             'application/json': {
               examples: {
-                ...OrderExamples     
+                succes : OrderExamples.Order     
               }
             }
           }
@@ -36,6 +36,32 @@ export const OrderApiResponse  = {
             }
           }
         }
+      }
+    },
+    put: {
+      ok: {
+        status: 200, description: 'Updates the quantity with given menuitem name and quantity to be placed',
+        content : {
+          'application/json': {
+            examples : {
+              success : OrderExamples.updatedQuantity,
+             
+            }
+          }
+        }
+      },
+      NotFound : {
+        status : 400,description: 'Id is not found with given customername',
+        content : {
+        'application/json': {
+          examples : {
+            InvalidId : OrderExamples.updateIdNotFound,
+            InvalidMenuItem : OrderExamples.updateMenuItemNotFound
+           
+          }
+        }
+      }
+        
       }
     }
 }

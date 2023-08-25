@@ -35,11 +35,13 @@ export class OrderController {
     }
 
     @Roles(Role.Manager,Role.Waiter)
+    @OrderCustomdecator('Get','/ordername/:name')
     @Get('/ordername/:name')
     async getOrderDetailsByName(@Param('name') customerName: string) {
         return await this.orderService.getOrderByName(customerName)
     }
     @Roles(Role.Manager,Role.Waiter)
+    @OrderCustomdecator('Put','/updateQuantity')
     @Put('/updateQuantity')
     async updateOrderQuantity(@Query('name') customerName:string, @Body() updateOrder: updateOrderDto) {
 

@@ -24,11 +24,20 @@ export function OrderCustomdecator (method: string, route:string)
                         ApiUnauthorizedResponse(ApiResponses.get.unauthorized),
                         ApiForbiddenResponse(ApiResponses.get.forbidden)
                     )
-            }
-            case '/ordername/:name':
+                case '/ordername/:name':
                 return applyDecorators(ApiOkResponse(OrderApiResponse.get.ok),
                 ApiNotFoundResponse(OrderApiResponse.get.notFound),
                 ApiUnauthorizedResponse(ApiResponses.get.unauthorized),
                 ApiForbiddenResponse(ApiResponses.get.forbidden))
+
+            }
+            case 'Put':
+                switch(route) {
+                    case '/updateQuantity':
+                    return applyDecorators(ApiOkResponse(OrderApiResponse.put.ok),
+                    ApiNotFoundResponse(OrderApiResponse.put.NotFound),
+                    ApiUnauthorizedResponse(ApiResponses.get.unauthorized),
+                    ApiForbiddenResponse(ApiResponses.get.forbidden))
+                }
     }
 }

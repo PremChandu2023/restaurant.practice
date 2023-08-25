@@ -47,6 +47,41 @@ OrderIdNotFound : {
         "error": "Not Found",
         "statusCode": 404
     }
+},
+updatedQuantity : {
+    description : "updates the menuItem and returns menuitem",
+    value : {
+        success: true,
+       data: {
+        "succes": true,
+        "data": {
+            "orderItem_id": 17,
+            "quantity": 31,
+            "menuitems": {
+                "menuitem_id": 4,
+                "menu_itemname": "Pancakes",
+                "price": 10,
+                "tax": 5
+            }
+        }
+    }
+    }
+},
+updateIdNotFound : {
+    description : "This error occurs when name with given customername is not found",
+    value : {
+        "message": "Id_with_given_customerName_is_not_avalaible",
+        "error": "Bad Request",
+        "statusCode": 400
+    }
+},
+updateMenuItemNotFound : {
+    description : "This error occurs when menuItemName  is not found",
+    value : {
+        "message": "Invalid_Menuitem_name",
+        "error": "Bad Request",
+        "statusCode": 400
+    }
 }
 
 }

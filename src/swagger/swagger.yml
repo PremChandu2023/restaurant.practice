@@ -682,7 +682,7 @@ paths:
           content:
             application/json:
               examples:
-                Order:
+                succes:
                   description: Gives the order details
                   value:
                     succes: true
@@ -693,30 +693,6 @@ paths:
                       date:
                         createdDate: '2023-08-24T08:24:49.956Z'
                         updatedDate: '2023-08-24T08:24:49.956Z'
-                OrderById:
-                  description: Gives the order details
-                  value:
-                    succes: true
-                    data:
-                      order_id: 11
-                      customerName: ramanjenulu
-                      tableNumber: 0
-                      orderStatus: completed
-                      paymentStatus: approved
-                      orderItems:
-                        - orderItem_id: 17
-                          quantity: 3000
-                          menuitems:
-                            menuitem_id: 4
-                            menu_itemname: Pancakes
-                            price: 10
-                            tax: 5
-                OrderIdNotFound:
-                  description: Gives the order details
-                  value:
-                    message: Invalid id Order with given id is not available
-                    error: Not Found
-                    statusCode: 404
       tags: &ref_5
         - Orders
       security: &ref_6
@@ -812,7 +788,73 @@ paths:
             type: string
       responses:
         '200':
-          description: ''
+          description: Gives the orders details by given id
+          content:
+            application/json:
+              examples:
+                Success:
+                  description: Gives the order details
+                  value:
+                    succes: true
+                    data:
+                      order_id: 11
+                      customerName: ramanjenulu
+                      tableNumber: 0
+                      orderStatus: completed
+                      paymentStatus: approved
+                      orderItems:
+                        - orderItem_id: 17
+                          quantity: 3000
+                          menuitems:
+                            menuitem_id: 4
+                            menu_itemname: Pancakes
+                            price: 10
+                            tax: 5
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              examples:
+                AcceswithoutAuthorization:
+                  description: ' If the client attempts to access certain book-related endpoints without providing any authentication credentials'
+                  value:
+                    message: Authentication_is_required_to_access_the_resource.
+                ExpiredAuthenticationToken:
+                  description: >-
+                    When the client sends an authentication token that is
+                    invalid, expired, or not recognized by the server
+                  value:
+                    message: client's_token_is_not_valid_for_the_requested_operation
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              examples:
+                InsufficientPrivileges:
+                  description: ' If the client provides authentication credentials, but the credentials do not grant sufficient privileges to access a specific book-related operation'
+                  value:
+                    message: >-
+                      client_does_not_have_the_required_authorization_to_perform_the_requested_action.
+                RoleBasedAccessControl:
+                  description: >-
+                    If the API uses role-based access control, the server may
+                    respond with a 403 status code when a user with a certain
+                    role tries to access an operation that requires a higher
+                    role or specific permissions.
+                  value:
+                    message: >-
+                      User_with_this_role_is_not_permitted_to_access_the_resource
+        '404':
+          description: Order with id not found
+          content:
+            application/json:
+              examples:
+                NotFound:
+                  description: Gives the order details
+                  value:
+                    message: Invalid id Order with given id is not available
+                    error: Not Found
+                    statusCode: 404
       tags: *ref_5
       security: *ref_6
   /Orders/updateQuantity:
@@ -832,7 +874,79 @@ paths:
               $ref: '#/components/schemas/updateOrderDto'
       responses:
         '200':
-          description: ''
+          description: >-
+            Updates the quantity with given menuitem name and quantity to be
+            placed
+          content:
+            application/json:
+              examples:
+                success:
+                  description: updates the menuItem and returns menuitem
+                  value:
+                    success: true
+                    data:
+                      succes: true
+                      data:
+                        orderItem_id: 17
+                        quantity: 31
+                        menuitems:
+                          menuitem_id: 4
+                          menu_itemname: Pancakes
+                          price: 10
+                          tax: 5
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              examples:
+                AcceswithoutAuthorization:
+                  description: ' If the client attempts to access certain book-related endpoints without providing any authentication credentials'
+                  value:
+                    message: Authentication_is_required_to_access_the_resource.
+                ExpiredAuthenticationToken:
+                  description: >-
+                    When the client sends an authentication token that is
+                    invalid, expired, or not recognized by the server
+                  value:
+                    message: client's_token_is_not_valid_for_the_requested_operation
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              examples:
+                InsufficientPrivileges:
+                  description: ' If the client provides authentication credentials, but the credentials do not grant sufficient privileges to access a specific book-related operation'
+                  value:
+                    message: >-
+                      client_does_not_have_the_required_authorization_to_perform_the_requested_action.
+                RoleBasedAccessControl:
+                  description: >-
+                    If the API uses role-based access control, the server may
+                    respond with a 403 status code when a user with a certain
+                    role tries to access an operation that requires a higher
+                    role or specific permissions.
+                  value:
+                    message: >-
+                      User_with_this_role_is_not_permitted_to_access_the_resource
+        '404':
+          description: Id is not found with given customername
+          content:
+            application/json:
+              examples:
+                InvalidId:
+                  description: >-
+                    This error occurs when name with given customername is not
+                    found
+                  value:
+                    message: Id_with_given_customerName_is_not_avalaible
+                    error: Bad Request
+                    statusCode: 400
+                InvalidMenuItem:
+                  description: This error occurs when menuItemName  is not found
+                  value:
+                    message: Invalid_Menuitem_name
+                    error: Bad Request
+                    statusCode: 400
       tags: *ref_5
       security: *ref_6
   /Orders/menuItem:
