@@ -22,7 +22,7 @@ export class MenuItems {
     @OneToMany(()=> OrderItem, (orderitems)=> orderitems.menuitems)
     OrderItems:OrderItem[]
 
-    @Column()
+    @Column({default : 5})
     tax:number;
 
     @Exclude()

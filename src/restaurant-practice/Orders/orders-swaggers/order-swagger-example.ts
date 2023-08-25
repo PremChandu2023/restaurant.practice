@@ -72,7 +72,6 @@ updateIdNotFound : {
     value : {
         "message": "Id_with_given_customerName_is_not_avalaible",
         "error": "Bad Request",
-        "statusCode": 400
     }
 },
 updateMenuItemNotFound : {
@@ -80,7 +79,24 @@ updateMenuItemNotFound : {
     value : {
         "message": "Invalid_Menuitem_name",
         "error": "Bad Request",
-        "statusCode": 400
+    }
+},
+quantityNull : {
+    description : "This error occurs when quanitty is null",
+    value : {
+        "message": [
+            "quantity should not be empty"
+        ],
+        "error": "Bad Request",
+    }
+},
+menuItemnull : {
+    description : "This error occurs when quanitty is null",
+    value :{
+        "message": [
+            "menuItem should not be empty"
+        ],
+        "error": "Bad Request",
     }
 }
 

@@ -1,5 +1,5 @@
 import { applyDecorators } from "@nestjs/common";
-import { ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiUnauthorizedResponse } from "@nestjs/swagger";
+import { ApiBadRequestResponse, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { OrderApiResponse } from "./orders.swaggers.api";
 import { BookCustomDecorator } from "src/books/custom-decarators";
 import { bookExamples } from "src/books/books-swagger-examples";
@@ -17,14 +17,14 @@ export function OrderCustomdecator (method: string, route:string)
          }
          case 'Get':
             switch(route) {
-                case '/order/:id':
+                case '/:id':
                     return applyDecorators(
                         ApiOkResponse(OrderApiResponse.get.ok),
                         ApiNotFoundResponse(OrderApiResponse.get.notFound),
                         ApiUnauthorizedResponse(ApiResponses.get.unauthorized),
                         ApiForbiddenResponse(ApiResponses.get.forbidden)
                     )
-                case '/ordername/:name':
+                case '/byname/:name':
                 return applyDecorators(ApiOkResponse(OrderApiResponse.get.ok),
                 ApiNotFoundResponse(OrderApiResponse.get.notFound),
                 ApiUnauthorizedResponse(ApiResponses.get.unauthorized),
@@ -33,9 +33,14 @@ export function OrderCustomdecator (method: string, route:string)
             }
             case 'Put':
                 switch(route) {
-                    case '/updateQuantity':
+                    case '/itemquantity:name':
                     return applyDecorators(ApiOkResponse(OrderApiResponse.put.ok),
                     ApiNotFoundResponse(OrderApiResponse.put.NotFound),
+                    ApiUnauthorizedResponse(ApiResponses.get.unauthorized),
+                    ApiForbiddenResponse(ApiResponses.get.forbidden))
+                    case '/:id/addItem':
+                    return applyDecorators(ApiOkResponse(OrderApiResponse.put.addMenUitem.ok),
+                    ApiBadRequestResponse(OrderApiResponse.put.addMenUitem.BadRequest),
                     ApiUnauthorizedResponse(ApiResponses.get.unauthorized),
                     ApiForbiddenResponse(ApiResponses.get.forbidden))
                 }

@@ -12,10 +12,11 @@ export class MenuDto  {
 @Injectable()
 export class MenuItemDto  {
     @ApiProperty({example : 'Pancakes'})
+    @IsNotEmpty()
     menu_itemname:string
     @ApiProperty({example : 20})
     @IsNotEmpty()
-    price:number;
+    price:number;   
 }
 @Injectable()
 export class OrderItemDTo {
@@ -52,13 +53,13 @@ export class createOrderDTo {
 }
 
 
-@Injectable()
-export class updateOrderDto {
-    @ApiProperty({example : 'Pancakes'})
-    menuItem:string
-    @ApiProperty({example : 10})
-    quantity:3
-}
+// @Injectable()
+// export class updateOrderDto {
+//     @ApiProperty({example : 'Pancakes'})
+//     menuItem:string
+//     @ApiProperty({example : 10})
+//     quantity:3
+// }
 @Injectable()
 export class getOrderDto {
     @ApiProperty()

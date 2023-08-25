@@ -44,8 +44,7 @@ export const OrderApiResponse  = {
         content : {
           'application/json': {
             examples : {
-              success : OrderExamples.updatedQuantity,
-             
+              success : OrderExamples.updatedQuantity,   
             }
           }
         }
@@ -57,11 +56,35 @@ export const OrderApiResponse  = {
           examples : {
             InvalidId : OrderExamples.updateIdNotFound,
             InvalidMenuItem : OrderExamples.updateMenuItemNotFound
-           
           }
         }
       }
         
+      },
+      addMenUitem : {
+        ok :{
+          status: 200, description: 'Updates the quantity with given menuitem name and quantity to be placed',
+          content : {
+            'application/json': {
+              examples : {
+                success : OrderExamples.updatedQuantity,
+               
+              }
+            }
+          }
+        },
+        BadRequest:{
+          status: 400, description: 'Updates the quantity with given menuitem name and quantity to be placed',
+          content : {
+            'application/json': {
+              examples : {
+               quantityNull : OrderExamples.quantityNull,
+               menuItemNull : OrderExamples.menuItemnull
+               
+              }
+            }
+          }
+        }
       }
     }
 }

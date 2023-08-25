@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, ParseIntPipe, Patch, Post, Put, Query, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { OrderServices } from "./order-service";
-import { MenuDto, MenuItemDto, createOrderDTo, getOrderDto, updateOrderDto, updatePaymentDTo } from "./orders.dtos";
+import { MenuDto, MenuItemDto, createOrderDTo, getOrderDto, updatePaymentDTo } from "./orders.dtos";
 import { MenuItems } from "./orders.entities/menuitem.entity";
 import { OrderCustomInterceptor } from "./Interceptors/Order.Interceptor";
 import { RecentsearchInterceptor } from "../interceptors/interceptor-menu";
@@ -10,10 +10,11 @@ import { EmployeeAuthGuard } from "../Auth/auth.Guard";
 import { RolesGuard } from "../guards/rolebased.guard";
 import { Role } from "../Menu/enums/roles.enums";
 import { OrderCustomdecator } from "./orders-swaggers/order-customdecarators";
+import { updateOrderDto } from "./order-dtos/oders-updateDto";
 
 @ApiTags("Orders")
 @ApiBearerAuth()
-@Controller('/Orders')
+@Controller('/order')
 @UseInterceptors(RecentsearchInterceptor)
 // @UseGuards(EmployeeAuthGuard,RolesGuard)
 export class OrderController {
@@ -28,31 +29,45 @@ export class OrderController {
     }
 
     @Roles(Role.Manager,Role.Waiter)
-    @OrderCustomdecator('Get','/order/:id')
-    @Get('/order/:id')
+    @OrderCustomdecator('Get','/:id')
+    @Get('/:id')
     getOrderDetailsById(@Param('id', ParseIntPipe) OrderId: number) {
         return this.orderService.getOrderById(OrderId)
     }
 
     @Roles(Role.Manager,Role.Waiter)
-    @OrderCustomdecator('Get','/ordername/:name')
-    @Get('/ordername/:name')
+    @OrderCustomdecator('Get','/byname/:name')
+    @Get('/byname/:name')
     async getOrderDetailsByName(@Param('name') customerName: string) {
         return await this.orderService.getOrderByName(customerName)
     }
     @Roles(Role.Manager,Role.Waiter)
-    @OrderCustomdecator('Put','/updateQuantity')
-    @Put('/updateQuantity')
-    async updateOrderQuantity(@Query('name') customerName:string, @Body() updateOrder: updateOrderDto) {
+    @OrderCustomdecator('Put','/itemquantity:name')
+    @Put('/itemquantity:name')
+    async updateOrderQuantity(@Param('name') customerName:string, @Body() updateOrder: updateOrderDto) {
 
         return await this.orderService.updateOrderQuantity(updateOrder, customerName);
 
     }
     @Roles(Role.Manager,Role.Waiter)
-    @Delete('menuItem')
-    deleteMenuItem(@Query('OrderId',ParseIntPipe) orderId:number, @Query('menuItem', ParseIntPipe) menuItemId:number) {
-       return  this.orderService.deleteMenuItem(orderId,menuItemId)
+    @Delete(':menuItemid')
+    deleteMenuItem(@Param('menuItemid', ParseIntPipe) orderItemId:number) {
+       return  this.orderService.deleteMenuItem(orderItemId);
     }
+
+    @Delete(':Orderid')
+    async deleteOrder(@Param('id',ParseIntPipe) orderId:number)
+    {
+        return await this.orderService.deleteOrderById(orderId);
+    }
+    
+    @OrderCustomdecator('Put','/:id/addItem')
+    @Put('/:id/addItem')
+    addMenuItem(@Param('id', ParseIntPipe) id:number,@Body() updateMenuItem:updateOrderDto)
+    {
+        return this.orderService.addMenuItem(updateMenuItem,id);
+    }
+
 
     @Patch(':id/updateStatus')
     updatePaymentStatus(@Body() updateStatus:updatePaymentDTo, @Param('id') id :number)

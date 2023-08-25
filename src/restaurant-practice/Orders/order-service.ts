@@ -6,10 +6,11 @@ import { Menu } from "./orders.entities/menu.entity";
 import { MenuItems } from "./orders.entities/menuitem.entity";
 import { Order } from "./orders.entities/orders.entity";
 import { OrderItem } from "./orders.entities/orderitem.entity";
-import { MenuDto, MenuItemDto, createOrderDTo, getOrderDto, orderDetails, updateOrderDto, updatePaymentDTo } from "./orders.dtos";
+import { MenuDto, MenuItemDto, createOrderDTo, getOrderDto, orderDetails,  updatePaymentDTo } from "./orders.dtos";
 import { OrderStatus } from "../Menu/enums/order.enum";
 import { PaymentStatus } from "../Menu/enums/payment.enum";
 import { plainToClass } from "class-transformer";
+import { updateOrderDto } from "./order-dtos/oders-updateDto";
 
 
 @Injectable()
@@ -131,17 +132,27 @@ export class OrderServices {
         return transformOrder;
 
     }
-    async deleteMenuItem(orderId:number,menuItemId:number){
-        const newOrder = await this.orderItemRespository.delete({menuitems : {menuitem_id : menuItemId}, orders : {order_id : orderId}},)
-        console.log(newOrder);
-        
-    //     const newOrderItemId = await this.orderItemRespository.findOne({where : {menuitems : {menuitem_id : menuItemId},orders : {order_id : orderId}},select : {orderItem_id : true}})
-    //     if(!newOrderItemId)
-    //    {
-    //         throw new HttpException('Given Item is not available',HttpStatus.BAD_REQUEST)
-    //    }
-    //    const deletedOrder = await this.orderItemRespository.
+    
+    async addMenuItem(updateMenuItem:updateOrderDto,id:number)
+    {
+        return "";
+    }
+    async deleteMenuItem(orderItemId:number){
+        const newOrderItem = await this.orderItemRespository.findOne({where : {orderItem_id : orderItemId}});
+        if(!newOrderItem)
+        {
+            throw new HttpException({message :"Invalid_OrderItemId" },HttpStatus.BAD_REQUEST);
+        }
         return {message : "Menu Item deleted successfully"};
+    }
+    async deleteOrderById(odrerId:number)
+    {
+        const newOrder = await this.orderRespository.delete({order_id : odrerId})
+        if(!newOrder)
+        {
+            throw new BadRequestException({message : 'order_with_given_id_is_not_found'})
+        }
+        return newOrder;
     }    
     async updatePaymentandOrderStatus(updateBody:updatePaymentDTo, orderId : number,)
     {

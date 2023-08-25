@@ -10,29 +10,31 @@ import { EmployeeAuthGuard } from "../Auth/auth.Guard";
 import { RolesGuard } from "../guards/rolebased.guard";
 import { Role } from "./enums/roles.enums";
 import { Roles } from "../custom-decarators/custom-roles-decarator";
+import { MenuCustomdecarators } from "./swagger-menu/swagger-menu-decarator";
 
 
 @ApiTags("Menu")
 @Controller('menu')
 @UseInterceptors(RecentsearchInterceptor)
 @Roles(Role.Manager)
-@UseGuards(EmployeeAuthGuard,RolesGuard)
+// @UseGuards(EmployeeAuthGuard,RolesGuard)
 export class Menucontroller {
    constructor(private menuService:MenuService){}
 
 
-@Get()
+@Get('/')
 @Roles(Role.Waiter)
-getAllMenu( )
+async getAllMenu()
 {
-    return this.menuService.getAllItems();
+  return await this.menuService.getAllItems();
 }
 
 @Roles(Role.Waiter)
-@Get(':id/menuitems')
-getMenuItemsById(@Param('id') id:number)
+@MenuCustomdecarators('Get','/:id')
+@Get('/:id')
+async getMenuItemsById(@Param('id') id:number)
 {
-    return this.menuService.getMenuItemById(id);
+   return await this.menuService.getMenuItemById(id);
 }
 
 @Post()
@@ -41,9 +43,10 @@ createMenu(@Body() menu:MenuDto)
     return this.menuService.createMenu(menu);
 }
 @Roles(Role.Waiter)
+@MenuCustomdecarators('Post',':id/menuitem')
 @Post(':id/menuitem')
-createMenuItem(@Body() menuItem:MenuItemDto,@Param('id', ParseIntPipe) id:number)
+addMenuItem(@Body() menuItem:MenuItemDto,@Param('id', ParseIntPipe) id:number)
 {
-   return this.menuService.createMenuItem(menuItem,id);
+   return this.menuService.addMenuItem(menuItem,id);
 }
 }
