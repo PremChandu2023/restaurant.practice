@@ -1,1 +1,0 @@
-Variable Management: Environments provide a way to manage variables that can be used in requests. Variables can represent dynamic values like URLs, authentication tokens, or any other data that may change based on the environment.
